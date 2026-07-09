@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SwipeRouteImport } from './routes/swipe'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SwipeRoute = SwipeRouteImport.update({
+  id: '/swipe',
+  path: '/swipe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
   path: '/menu',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
+  '/swipe': typeof SwipeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
+  '/swipe': typeof SwipeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
+  '/swipe': typeof SwipeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/explore' | '/map' | '/menu'
+  fullPaths: '/' | '/explore' | '/map' | '/menu' | '/swipe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/explore' | '/map' | '/menu'
-  id: '__root__' | '/' | '/explore' | '/map' | '/menu'
+  to: '/' | '/explore' | '/map' | '/menu' | '/swipe'
+  id: '__root__' | '/' | '/explore' | '/map' | '/menu' | '/swipe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +76,18 @@ export interface RootRouteChildren {
   ExploreRoute: typeof ExploreRoute
   MapRoute: typeof MapRoute
   MenuRoute: typeof MenuRoute
+  SwipeRoute: typeof SwipeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/swipe': {
+      id: '/swipe'
+      path: '/swipe'
+      fullPath: '/swipe'
+      preLoaderRoute: typeof SwipeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/menu': {
       id: '/menu'
       path: '/menu'
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExploreRoute: ExploreRoute,
   MapRoute: MapRoute,
   MenuRoute: MenuRoute,
+  SwipeRoute: SwipeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
