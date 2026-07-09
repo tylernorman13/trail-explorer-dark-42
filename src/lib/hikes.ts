@@ -8,6 +8,26 @@ import torres1 from "@/assets/torres-1.jpg";
 import torres2 from "@/assets/torres-2.jpg";
 
 export type Difficulty = "Easy" | "Moderate" | "Hard" | "Expert";
+export type HikeType =
+  | "Lake"
+  | "Glacier"
+  | "Waterfall"
+  | "Peak"
+  | "Ridge"
+  | "Valley"
+  | "Viewpoint";
+
+export const HIKE_TYPES: HikeType[] = [
+  "Lake",
+  "Glacier",
+  "Waterfall",
+  "Peak",
+  "Ridge",
+  "Valley",
+  "Viewpoint",
+];
+
+export const DIFFICULTIES: Difficulty[] = ["Easy", "Moderate", "Hard", "Expert"];
 
 export interface Hike {
   id: string;
@@ -15,6 +35,7 @@ export interface Hike {
   region: string;
   tagline: string;
   difficulty: Difficulty;
+  type: HikeType;
   distanceKm: number;
   elevationM: number;
   lat: number;
