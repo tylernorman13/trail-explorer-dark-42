@@ -68,13 +68,7 @@ export interface FileRouteTypes {
   fullPaths: '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
-  id:
-    | '__root__'
-    | '/'
-    | '/map'
-    | '/menu'
-    | '/region/$state'
-    | '/spot/$id'
+  id: '__root__' | '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {

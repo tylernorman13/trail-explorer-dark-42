@@ -1,20 +1,19 @@
 import { useNavigate, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { HIKES, STATES, type StateCode, type Hike } from "@/lib/hikes";
+import { HIKES, STATES, kmToMi, mToFt, type StateCode, type Hike } from "@/lib/hikes";
 import { MAP_VIEWBOX, STATE_PATHS, projectLatLng } from "@/lib/map-paths";
 import { cn } from "@/lib/utils";
 
-const DIFF_COLOR: Record<Hike["difficulty"], string> = {
-  Easy: "#34d399",
-  Moderate: "#fbbf24",
-  Hard: "#fb923c",
-  Expert: "#fb7185",
-};
+const DOT_COLOR = "#d85c2b";
 
 export function RegionMap({
   height = "aspect-[4/5]",
+  selectedState = null,
+  onSelectState,
 }: {
   height?: string;
+  selectedState?: StateCode | null;
+  onSelectState?: (code: StateCode) => void;
 }) {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState<string | null>(null);
@@ -25,7 +24,7 @@ export function RegionMap({
   );
 
   return (
-    <div className={cn("relative w-full", height)}>
+    <div className={cn("relative h-full w-full", height)}>
       <svg
         viewBox={`0 0 ${MAP_VIEWBOX.w} ${MAP_VIEWBOX.h}`}
         className="absolute inset-0 h-full w-full"
@@ -34,10 +33,6 @@ export function RegionMap({
         aria-label="Pacific coast hikes"
       >
         <defs>
-          <radialGradient id="mapGlow" cx="50%" cy="45%" r="65%">
-            <stop offset="0%" stopColor="#d85c2b" stopOpacity="0.22" />
-            <stop offset="100%" stopColor="#d85c2b" stopOpacity="0" />
-          </radialGradient>
           <pattern
             id="dotGrid"
             width="8"
@@ -46,74 +41,61 @@ export function RegionMap({
           >
             <circle cx="1" cy="1" r="0.6" fill="#ffffff" fillOpacity="0.05" />
           </pattern>
-          <filter id="pinShadow" x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx="0" dy="0.6" stdDeviation="0.8" floodOpacity="0.5" />
-          </filter>
         </defs>
 
         <rect width={MAP_VIEWBOX.w} height={MAP_VIEWBOX.h} fill="url(#dotGrid)" />
-        <rect width={MAP_VIEWBOX.w} height={MAP_VIEWBOX.h} fill="url(#mapGlow)" />
 
-        {(Object.keys(STATE_PATHS) as StateCode[]).map((code) => (
-          <path
-            key={code}
-            d={STATE_PATHS[code]}
-            fill="#e8e5df"
-            fillOpacity={0.95}
-            stroke="#0a0a0a"
-            strokeWidth={1}
-            strokeLinejoin="round"
-          />
-        ))}
+        {(Object.keys(STATE_PATHS) as StateCode[]).map((code) => {
+          const isSel = selectedState === code;
+          const dimmed = selectedState && !isSel;
+          return (
+            <path
+              key={code}
+              d={STATE_PATHS[code]}
+              fill={isSel ? "#f5efe6" : "#e8e5df"}
+              fillOpacity={dimmed ? 0.35 : 0.95}
+              stroke="#0a0a0a"
+              strokeWidth={isSel ? 1.4 : 1}
+              strokeLinejoin="round"
+              className={onSelectState ? "cursor-pointer transition" : undefined}
+              onClick={() => onSelectState?.(code)}
+            />
+          );
+        })}
 
-        {/* Faint state divider highlights */}
-        {(Object.keys(STATE_PATHS) as StateCode[]).map((code) => (
-          <path
-            key={`shade-${code}`}
-            d={STATE_PATHS[code]}
-            fill="none"
-            stroke="#ffffff"
-            strokeOpacity={0.35}
-            strokeWidth={0.35}
-          />
-        ))}
-
-        {/* State labels */}
         <StateLabel code="WA" x={65} y={30} />
         <StateLabel code="OR" x={75} y={110} />
         <StateLabel code="CA" x={140} y={330} />
 
-        {/* Hike markers */}
+        {/* Hike markers — uniform orange, no glow */}
         {points.map(({ hike, x, y }) => {
           const isHover = hovered === hike.id;
+          const dim = selectedState && hike.state !== selectedState;
           return (
             <g
               key={hike.id}
               transform={`translate(${x} ${y})`}
               className="cursor-pointer"
+              opacity={dim ? 0.35 : 1}
               onMouseEnter={() => setHovered(hike.id)}
-              onMouseLeave={() => setHovered((v) => (v === hike.id ? null : v))}
+              onMouseLeave={() =>
+                setHovered((v) => (v === hike.id ? null : v))
+              }
               onClick={() =>
                 navigate({ to: "/spot/$id", params: { id: hike.id } })
               }
             >
-              {isHover && (
-                <circle r={9} fill={DIFF_COLOR[hike.difficulty]} fillOpacity={0.25} />
-              )}
               <circle
                 r={isHover ? 4.5 : 3.2}
-                fill={DIFF_COLOR[hike.difficulty]}
-                stroke="#0a0a0a"
+                fill={DOT_COLOR}
+                stroke="#ffffff"
                 strokeWidth={0.9}
-                filter="url(#pinShadow)"
               />
-              <circle r={1} fill="#ffffff" fillOpacity={0.9} />
             </g>
           );
         })}
       </svg>
 
-      {/* Floating tooltip card */}
       {hovered && (
         <MarkerTooltip
           hike={HIKES.find((h) => h.id === hovered)!}
@@ -162,27 +144,31 @@ function MarkerTooltip({
 }) {
   const pt = points.find((p) => p.hike.id === hike.id);
   if (!pt) return null;
-  // Convert SVG-space to percentage within the container.
   const leftPct = (pt.x / MAP_VIEWBOX.w) * 100;
   const topPct = (pt.y / MAP_VIEWBOX.h) * 100;
   return (
     <Link
       to="/spot/$id"
       params={{ id: hike.id }}
-      className="pointer-events-auto absolute z-10 flex w-40 -translate-x-1/2 -translate-y-[calc(100%+10px)] gap-2 rounded-xl bg-black/85 p-2 ring-1 ring-white/15 backdrop-blur transition hover:bg-black"
+      className="pointer-events-auto absolute z-10 flex w-52 -translate-x-1/2 -translate-y-[calc(100%+10px)] gap-2 rounded-xl bg-black/90 p-2 ring-1 ring-white/15 backdrop-blur transition hover:bg-black"
       style={{ left: `${leftPct}%`, top: `${topPct}%` }}
     >
       <img
         src={hike.images[0]}
         alt=""
-        className="h-10 w-10 shrink-0 rounded-lg object-cover"
+        className="h-14 w-14 shrink-0 rounded-lg object-cover"
       />
-      <div className="min-w-0">
-        <div className="truncate text-[11px] font-semibold text-white">
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-[12px] font-semibold text-white">
           {hike.name}
         </div>
-        <div className="truncate text-[10px] text-white/60">
+        <div className="truncate text-[10px] text-white/60">{hike.region}</div>
+        <div className="mt-0.5 text-[10px] text-primary">
           {hike.type} · {hike.difficulty}
+        </div>
+        <div className="text-[10px] text-white/50">
+          {kmToMi(hike.distanceKm)} mi · ↑{" "}
+          {mToFt(hike.elevationM).toLocaleString()} ft
         </div>
       </div>
     </Link>
