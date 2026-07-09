@@ -9,19 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SwipeRouteImport } from './routes/swipe'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as MapRouteImport } from './routes/map'
-import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SpotIdRouteImport } from './routes/spot.$id'
 import { Route as RegionStateRouteImport } from './routes/region.$state'
 
-const SwipeRoute = SwipeRouteImport.update({
-  id: '/swipe',
-  path: '/swipe',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
   path: '/menu',
@@ -30,11 +23,6 @@ const MenuRoute = MenuRouteImport.update({
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExploreRoute = ExploreRouteImport.update({
-  id: '/explore',
-  path: '/explore',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,81 +43,44 @@ const RegionStateRoute = RegionStateRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
-  '/swipe': typeof SwipeRoute
   '/region/$state': typeof RegionStateRoute
   '/spot/$id': typeof SpotIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
-  '/swipe': typeof SwipeRoute
   '/region/$state': typeof RegionStateRoute
   '/spot/$id': typeof SpotIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
-  '/swipe': typeof SwipeRoute
   '/region/$state': typeof RegionStateRoute
   '/spot/$id': typeof SpotIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/explore'
-    | '/map'
-    | '/menu'
-    | '/swipe'
-    | '/region/$state'
-    | '/spot/$id'
+  fullPaths: '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/explore'
-    | '/map'
-    | '/menu'
-    | '/swipe'
-    | '/region/$state'
-    | '/spot/$id'
-  id:
-    | '__root__'
-    | '/'
-    | '/explore'
-    | '/map'
-    | '/menu'
-    | '/swipe'
-    | '/region/$state'
-    | '/spot/$id'
+  to: '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
+  id: '__root__' | '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ExploreRoute: typeof ExploreRoute
   MapRoute: typeof MapRoute
   MenuRoute: typeof MenuRoute
-  SwipeRoute: typeof SwipeRoute
   RegionStateRoute: typeof RegionStateRoute
   SpotIdRoute: typeof SpotIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/swipe': {
-      id: '/swipe'
-      path: '/swipe'
-      fullPath: '/swipe'
-      preLoaderRoute: typeof SwipeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/menu': {
       id: '/menu'
       path: '/menu'
@@ -142,13 +93,6 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/explore': {
-      id: '/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof ExploreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,10 +121,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ExploreRoute: ExploreRoute,
   MapRoute: MapRoute,
   MenuRoute: MenuRoute,
-  SwipeRoute: SwipeRoute,
   RegionStateRoute: RegionStateRoute,
   SpotIdRoute: SpotIdRoute,
 }

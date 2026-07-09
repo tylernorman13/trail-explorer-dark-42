@@ -29,12 +29,6 @@ export const Route = createFileRoute("/map")({
   component: MapPage,
 });
 
-const dot: Record<Hike["difficulty"], string> = {
-  Easy: "bg-emerald-400",
-  Moderate: "bg-yellow-400",
-  Hard: "bg-orange-400",
-  Expert: "bg-rose-400",
-};
 
 function MapPage() {
   const { id } = Route.useSearch();
@@ -128,7 +122,7 @@ function DetailCard({ hike, onClose }: { hike: Hike; onClose: () => void }) {
             label="Level"
             value={
               <span className="inline-flex items-center gap-1.5">
-                <span className={cn("h-1.5 w-1.5 rounded-full", dot[hike.difficulty])} />
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                 {hike.difficulty}
               </span>
             }
