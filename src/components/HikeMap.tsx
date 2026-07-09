@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ComponentType } from "react";
 import type { Hike } from "@/lib/hikes";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
-type InnerType = (props: Props) => JSX.Element;
+type InnerType = ComponentType<Props>;
 
 export function HikeMap(props: Props) {
   const [Inner, setInner] = useState<InnerType | null>(null);
