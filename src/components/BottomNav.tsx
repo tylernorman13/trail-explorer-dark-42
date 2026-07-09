@@ -1,11 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, LayoutGrid, Layers, Map as MapIcon, Menu } from "lucide-react";
+import { Home, Map as MapIcon, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const tabs = [
   { to: "/", label: "Home", icon: Home },
-  { to: "/explore", label: "Explore", icon: LayoutGrid },
-  { to: "/swipe", label: "Swipe", icon: Layers },
   { to: "/map", label: "Map", icon: MapIcon },
   { to: "/menu", label: "Menu", icon: Menu },
 ] as const;
@@ -18,7 +16,7 @@ export function BottomNav() {
       className="fixed inset-x-0 bottom-0 z-50 border-t border-white/5 bg-[#0a0f1a]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur"
       aria-label="Primary"
     >
-      <ul className="mx-auto grid max-w-md grid-cols-5 px-2 pt-2">
+      <ul className="mx-auto grid max-w-md grid-cols-3 px-2 pt-2">
         {tabs.map((t) => {
           const active = pathname === t.to;
           const Icon = t.icon;
