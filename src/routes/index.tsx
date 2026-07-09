@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Search, Star, ChevronRight } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
-import { HIKES, type Hike } from "@/lib/hikes";
+import { HIKES, kmToMi, mToFt, type Hike } from "@/lib/hikes";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -112,7 +112,7 @@ function Home() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-white/50">
                     <span className={cn("h-1.5 w-1.5 rounded-full", dot[h.difficulty])} />
-                    {h.difficulty} · {h.distanceKm} km · ↑ {h.elevationM} m
+                    {h.difficulty} · {kmToMi(h.distanceKm)} mi · ↑ {mToFt(h.elevationM).toLocaleString()} ft
                   </div>
                   <h3 className="mt-1 truncate text-base font-semibold text-white">
                     {h.name}

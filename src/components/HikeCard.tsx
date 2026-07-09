@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
-import type { Hike } from "@/lib/hikes";
+import { type Hike, kmToMi, mToFt } from "@/lib/hikes";
 import { cn } from "@/lib/utils";
 
 const dotColor: Record<Hike["difficulty"], string> = {
@@ -46,9 +46,9 @@ export function HikeCard({ hike, compact = false }: { hike: Hike; compact?: bool
         <h3 className="text-xl font-semibold leading-tight text-white">{hike.name}</h3>
         {!compact && (
           <div className="mt-auto flex items-center gap-3 pt-2 text-[11px] text-white/50">
-            <span>{hike.distanceKm} km</span>
+            <span>{kmToMi(hike.distanceKm)} mi</span>
             <span className="h-0.5 w-0.5 rounded-full bg-white/30" />
-            <span>↑ {hike.elevationM} m</span>
+            <span>↑ {mToFt(hike.elevationM).toLocaleString()} ft</span>
           </div>
         )}
       </div>
