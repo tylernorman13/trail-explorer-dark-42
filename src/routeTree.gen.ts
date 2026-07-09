@@ -77,7 +77,14 @@ export interface FileRouteTypes {
   fullPaths: '/' | '/explore' | '/map' | '/menu' | '/swipe' | '/region/$state'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/explore' | '/map' | '/menu' | '/swipe' | '/region/$state'
-  id: '__root__' | '/' | '/explore' | '/map' | '/menu' | '/swipe' | '/region/$state'
+  id:
+    | '__root__'
+    | '/'
+    | '/explore'
+    | '/map'
+    | '/menu'
+    | '/swipe'
+    | '/region/$state'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
