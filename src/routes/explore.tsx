@@ -45,13 +45,18 @@ function Explore() {
         </div>
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Chip active={diff === null} onClick={() => setDiff(null)}>
-            All
+            All <span className="opacity-60">({HIKES.length})</span>
           </Chip>
-          {DIFFICULTIES.map((d) => (
-            <Chip key={d} active={diff === d} onClick={() => setDiff(diff === d ? null : d)}>
-              {d}
-            </Chip>
-          ))}
+          {DIFFICULTIES.map((d) => {
+            const count = HIKES.filter(
+              (h) => h.difficulty === d && (type ? h.type === type : true),
+            ).length;
+            return (
+              <Chip key={d} active={diff === d} onClick={() => setDiff(diff === d ? null : d)}>
+                {d} <span className="opacity-60">({count})</span>
+              </Chip>
+            );
+          })}
         </div>
 
         <div className="mb-1 mt-2 text-[11px] font-semibold uppercase tracking-widest text-white/40">
