@@ -55,6 +55,11 @@ export const DIFFICULTIES: Difficulty[] = ["Easy", "Moderate", "Hard", "Expert"]
 export const kmToMi = (km: number) => Math.round(km * 0.621371 * 10) / 10;
 export const mToFt = (m: number) => Math.round(m * 3.28084);
 
+export interface InstagramClip {
+  url: string;
+  caption?: string;
+}
+
 export interface Hike {
   id: string;
   name: string;
@@ -69,6 +74,7 @@ export interface Hike {
   lng: number;
   description: string;
   images: string[];
+  instagram?: InstagramClip[];
 }
 
 export const HIKES: Hike[] = [

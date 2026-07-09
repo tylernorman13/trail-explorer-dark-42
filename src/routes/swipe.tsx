@@ -33,8 +33,8 @@ function Swipe() {
       <AppTopBar subtitle="Swipe" />
       <div className="px-4 pt-2">
         <Link
-          to="/map"
-          search={{ id: hike.id }}
+          to="/spot/$id"
+          params={{ id: hike.id }}
           className="relative block overflow-hidden rounded-3xl border border-white/5 bg-card"
         >
           <img src={hike.images[0]} alt={hike.name} className="h-[520px] w-full object-cover" />

@@ -13,8 +13,8 @@ const dotColor: Record<Hike["difficulty"], string> = {
 export function HikeCard({ hike, compact = false }: { hike: Hike; compact?: boolean }) {
   return (
     <Link
-      to="/map"
-      search={{ id: hike.id }}
+      to="/spot/$id"
+      params={{ id: hike.id }}
       className="group relative flex flex-col overflow-hidden rounded-2xl bg-card ring-1 ring-white/5 transition hover:ring-white/15"
     >
       <div className={cn("relative w-full", compact ? "aspect-square" : "aspect-[4/5]")}>
