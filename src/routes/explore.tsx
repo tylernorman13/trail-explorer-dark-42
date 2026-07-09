@@ -59,13 +59,18 @@ function Explore() {
         </div>
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Chip active={type === null} onClick={() => setType(null)}>
-            All
+            All <span className="opacity-60">({HIKES.length})</span>
           </Chip>
-          {HIKE_TYPES.map((t) => (
-            <Chip key={t} active={type === t} onClick={() => setType(type === t ? null : t)}>
-              {t}
-            </Chip>
-          ))}
+          {HIKE_TYPES.map((t) => {
+            const count = HIKES.filter(
+              (h) => h.type === t && (diff ? h.difficulty === diff : true),
+            ).length;
+            return (
+              <Chip key={t} active={type === t} onClick={() => setType(type === t ? null : t)}>
+                {t} <span className="opacity-60">({count})</span>
+              </Chip>
+            );
+          })}
         </div>
       </div>
 

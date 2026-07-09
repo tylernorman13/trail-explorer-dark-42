@@ -18,16 +18,19 @@ export type HikeType =
   | "Viewpoint";
 
 export const HIKE_TYPES: HikeType[] = [
-  "Lake",
-  "Glacier",
-  "Waterfall",
   "Peak",
+  "Lake",
+  "Waterfall",
   "Ridge",
-  "Valley",
   "Viewpoint",
+  "Valley",
+  "Glacier",
 ];
 
 export const DIFFICULTIES: Difficulty[] = ["Easy", "Moderate", "Hard", "Expert"];
+
+export const kmToMi = (km: number) => Math.round(km * 0.621371 * 10) / 10;
+export const mToFt = (m: number) => Math.round(m * 3.28084);
 
 export interface Hike {
   id: string;

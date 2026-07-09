@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { z } from "zod";
 import { HikeMap } from "@/components/HikeMap";
-import { HIKES, type Hike } from "@/lib/hikes";
+import { HIKES, kmToMi, mToFt, type Hike } from "@/lib/hikes";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({
@@ -122,8 +122,8 @@ function DetailCard({ hike, onClose }: { hike: Hike; onClose: () => void }) {
         <p className="mt-0.5 text-sm text-white/60">{hike.region}</p>
 
         <div className="mt-3 grid grid-cols-3 gap-2 rounded-2xl bg-white/[0.04] p-3 text-center ring-1 ring-white/5">
-          <Stat label="Distance" value={`${hike.distanceKm} km`} />
-          <Stat label="Elevation" value={`↑ ${hike.elevationM} m`} />
+          <Stat label="Distance" value={`${kmToMi(hike.distanceKm)} mi`} />
+          <Stat label="Elevation" value={`↑ ${mToFt(hike.elevationM).toLocaleString()} ft`} />
           <Stat
             label="Level"
             value={
