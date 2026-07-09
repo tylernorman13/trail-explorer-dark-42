@@ -13,6 +13,7 @@ export interface Hike {
   id: string;
   name: string;
   region: string;
+  tagline: string;
   difficulty: Difficulty;
   distanceKm: number;
   elevationM: number;
@@ -27,6 +28,7 @@ export const HIKES: Hike[] = [
     id: "half-dome",
     name: "Half Dome",
     region: "Yosemite, California",
+    tagline: "Cables, granite, and the summit of a legend",
     difficulty: "Expert",
     distanceKm: 22.5,
     elevationM: 1460,
@@ -40,6 +42,7 @@ export const HIKES: Hike[] = [
     id: "angels-landing",
     name: "Angels Landing",
     region: "Zion, Utah",
+    tagline: "A knife-edge ridge above the red canyon",
     difficulty: "Hard",
     distanceKm: 8.7,
     elevationM: 453,
@@ -53,6 +56,7 @@ export const HIKES: Hike[] = [
     id: "swiss-alps",
     name: "Oeschinensee Loop",
     region: "Bernese Alps, Switzerland",
+    tagline: "Turquoise alpine lake under 3000m peaks",
     difficulty: "Moderate",
     distanceKm: 12.0,
     elevationM: 620,
@@ -66,13 +70,14 @@ export const HIKES: Hike[] = [
     id: "torres-del-paine",
     name: "Base Torres",
     region: "Patagonia, Chile",
+    tagline: "The signature trek to the three granite towers",
     difficulty: "Hard",
     distanceKm: 19.0,
     elevationM: 750,
     lat: -50.9423,
     lng: -72.9853,
     description:
-      "The signature trek to the base of the three granite towers. Wind, glacial rubble, and a mirrored lagoon at the finish.",
+      "Wind, glacial rubble, and a mirrored lagoon at the finish, with the three granite towers standing over it all.",
     images: [torres1, torres2],
   },
 ];
