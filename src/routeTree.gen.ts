@@ -14,6 +14,7 @@ import { Route as MenuRouteImport } from './routes/menu'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RegionStateRouteImport } from './routes/region.$state'
 
 const SwipeRoute = SwipeRouteImport.update({
   id: '/swipe',
@@ -40,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegionStateRoute = RegionStateRouteImport.update({
+  id: '/region/$state',
+  path: '/region/$state',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
   '/swipe': typeof SwipeRoute
+  '/region/$state': typeof RegionStateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
   '/swipe': typeof SwipeRoute
+  '/region/$state': typeof RegionStateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,21 @@ export interface FileRoutesById {
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
   '/swipe': typeof SwipeRoute
+  '/region/$state': typeof RegionStateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/explore' | '/map' | '/menu' | '/swipe'
+  fullPaths: '/' | '/explore' | '/map' | '/menu' | '/swipe' | '/region/$state'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/explore' | '/map' | '/menu' | '/swipe'
-  id: '__root__' | '/' | '/explore' | '/map' | '/menu' | '/swipe'
+  to: '/' | '/explore' | '/map' | '/menu' | '/swipe' | '/region/$state'
+  id:
+    | '__root__'
+    | '/'
+    | '/explore'
+    | '/map'
+    | '/menu'
+    | '/swipe'
+    | '/region/$state'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +93,7 @@ export interface RootRouteChildren {
   MapRoute: typeof MapRoute
   MenuRoute: typeof MenuRoute
   SwipeRoute: typeof SwipeRoute
+  RegionStateRoute: typeof RegionStateRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +133,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/region/$state': {
+      id: '/region/$state'
+      path: '/region/$state'
+      fullPath: '/region/$state'
+      preLoaderRoute: typeof RegionStateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +149,7 @@ const rootRouteChildren: RootRouteChildren = {
   MapRoute: MapRoute,
   MenuRoute: MenuRoute,
   SwipeRoute: SwipeRoute,
+  RegionStateRoute: RegionStateRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
