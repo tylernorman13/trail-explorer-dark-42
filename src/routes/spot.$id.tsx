@@ -79,7 +79,7 @@ function SpotPage() {
 
   // Merge hardcoded + user-edited extras
   const alltrailsUrl = extras.alltrailsUrl ?? hike.alltrailsUrl;
-  const instagramClips = [
+  const instagramClips: { url: string; caption?: string }[] = [
     ...(hike.instagram ?? []),
     ...((extras.instagramUrls ?? []).map((url) => ({ url }))),
   ];
