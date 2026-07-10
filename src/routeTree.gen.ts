@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as BeenThereRouteImport } from './routes/been-there'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SpotIdRouteImport } from './routes/spot.$id'
 import { Route as RegionStateRouteImport } from './routes/region.$state'
@@ -29,6 +30,11 @@ const MenuRoute = MenuRouteImport.update({
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BeenThereRoute = BeenThereRouteImport.update({
+  id: '/been-there',
+  path: '/been-there',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -49,6 +55,7 @@ const RegionStateRoute = RegionStateRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/been-there': typeof BeenThereRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
   '/saved': typeof SavedRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/been-there': typeof BeenThereRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
   '/saved': typeof SavedRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/been-there': typeof BeenThereRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
   '/saved': typeof SavedRoute
@@ -74,12 +83,27 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/map' | '/menu' | '/saved' | '/region/$state' | '/spot/$id'
+  fullPaths:
+    | '/'
+    | '/been-there'
+    | '/map'
+    | '/menu'
+    | '/saved'
+    | '/region/$state'
+    | '/spot/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/map' | '/menu' | '/saved' | '/region/$state' | '/spot/$id'
+  to:
+    | '/'
+    | '/been-there'
+    | '/map'
+    | '/menu'
+    | '/saved'
+    | '/region/$state'
+    | '/spot/$id'
   id:
     | '__root__'
     | '/'
+    | '/been-there'
     | '/map'
     | '/menu'
     | '/saved'
@@ -89,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BeenThereRoute: typeof BeenThereRoute
   MapRoute: typeof MapRoute
   MenuRoute: typeof MenuRoute
   SavedRoute: typeof SavedRoute
@@ -119,6 +144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/been-there': {
+      id: '/been-there'
+      path: '/been-there'
+      fullPath: '/been-there'
+      preLoaderRoute: typeof BeenThereRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -145,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BeenThereRoute: BeenThereRoute,
   MapRoute: MapRoute,
   MenuRoute: MenuRoute,
   SavedRoute: SavedRoute,
