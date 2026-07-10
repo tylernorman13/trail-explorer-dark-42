@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
-import { RegionMap } from "@/components/RegionMap";
+import { StateFilterCards } from "@/components/RegionMap";
 import { HikeCard } from "@/components/HikeCard";
 import {
   HIKES,
