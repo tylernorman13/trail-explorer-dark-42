@@ -73,7 +73,7 @@ function Home() {
         </label>
       </div>
 
-      {/* State filter — map style */}
+      {/* State filter — 3 cards, each state as an orange shape */}
       <section className="mt-5 px-4">
         <div className="mb-2 flex items-end justify-between">
           <div className="text-[11px] font-semibold uppercase tracking-widest text-white/40">
@@ -88,42 +88,12 @@ function Home() {
             </button>
           )}
         </div>
-        <div className="overflow-hidden rounded-3xl bg-card ring-1 ring-white/5">
-          <div className="aspect-[5/4] w-full">
-            <RegionMap
-              selectedState={state}
-              onSelectState={(s) =>
-                setState((prev) => (prev === s ? null : s))
-              }
-            />
-          </div>
-          <div className="grid grid-cols-3 divide-x divide-white/5 border-t border-white/5 text-center">
-            {STATES.map((s) => {
-              const count = HIKES.filter((h) => h.state === s.code).length;
-              const active = state === s.code;
-              return (
-                <button
-                  key={s.code}
-                  onClick={() =>
-                    setState((prev) => (prev === s.code ? null : s.code))
-                  }
-                  className={cn(
-                    "flex flex-col items-center py-2.5 text-xs transition",
-                    active
-                      ? "bg-primary/15 text-primary"
-                      : "text-white/60 hover:text-white",
-                  )}
-                >
-                  <span className="text-sm font-semibold">{s.code}</span>
-                  <span className="text-[10px] opacity-70">
-                    {count} {count === 1 ? "spot" : "spots"}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <StateFilterCards
+          selected={state}
+          onSelect={(s) => setState((prev) => (prev === s ? null : s))}
+        />
       </section>
+
 
       {/* Filters */}
       <div className="mt-5 px-4">
