@@ -6,7 +6,9 @@ import {
   Heart,
   Instagram,
   MapPin,
-  Share2,
+  Navigation,
+  Apple,
+  X,
 } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
 import { HIKES, STATES, kmToMi, mToFt, type Hike } from "@/lib/hikes";
@@ -42,11 +44,27 @@ const DIFF_DOT: Record<Hike["difficulty"], string> = {
   Expert: "bg-rose-400",
 };
 
+const DIFF_BADGE: Record<Hike["difficulty"], string> = {
+  Easy: "bg-emerald-500/20 text-emerald-300",
+  Moderate: "bg-yellow-500/20 text-yellow-300",
+  Hard: "bg-orange-500/20 text-orange-300",
+  Expert: "bg-rose-500/20 text-rose-300",
+};
+
+function toEmbedUrl(url: string): string | null {
+  // Instagram post / reel / tv → append /embed
+  const m = url.match(/^(https?:\/\/(?:www\.)?instagram\.com\/(?:reel|p|tv)\/[^/?#]+)/i);
+  if (m) return `${m[1]}/embed`;
+  return null;
+}
+
 function SpotPage() {
   const { id } = Route.useParams();
   const hike = HIKES.find((h) => h.id === id)!;
   const [i, setI] = useState(0);
   const [saved, setSaved] = useState(false);
+  const [visited, setVisited] = useState(false);
+  const [showMapPicker, setShowMapPicker] = useState(false);
   const state = STATES.find((s) => s.code === hike.state);
 
   const prev = () =>
@@ -56,6 +74,10 @@ function SpotPage() {
   const related = HIKES.filter(
     (h) => h.state === hike.state && h.id !== hike.id,
   ).slice(0, 4);
+
+  const q = encodeURIComponent(`${hike.name}, ${hike.region}`);
+  const gmaps = `https://www.google.com/maps/search/?api=1&query=${hike.lat},${hike.lng}&query_place_id=${q}`;
+  const amaps = `https://maps.apple.com/?q=${q}&ll=${hike.lat},${hike.lng}`;
 
   return (
     <div className="pb-8">
@@ -81,26 +103,17 @@ function SpotPage() {
             >
               <ChevronLeft className="h-5 w-5" />
             </Link>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                aria-label="Share"
-                className="grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur"
-              >
-                <Share2 className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                aria-label="Save"
-                onClick={() => setSaved((v) => !v)}
-                className={cn(
-                  "grid h-9 w-9 place-items-center rounded-full backdrop-blur transition",
-                  saved ? "bg-primary text-primary-foreground" : "bg-black/60 text-white",
-                )}
-              >
-                <Heart className="h-4 w-4" fill={saved ? "currentColor" : "none"} />
-              </button>
-            </div>
+            <button
+              type="button"
+              aria-label="Save"
+              onClick={() => setSaved((v) => !v)}
+              className={cn(
+                "grid h-9 w-9 place-items-center rounded-full backdrop-blur transition",
+                saved ? "bg-primary text-primary-foreground" : "bg-black/60 text-white",
+              )}
+            >
+              <Heart className="h-4 w-4" fill={saved ? "currentColor" : "none"} />
+            </button>
           </div>
 
           {/* Carousel controls */}
@@ -120,7 +133,7 @@ function SpotPage() {
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
-              <div className="absolute bottom-16 left-1/2 flex -translate-x-1/2 gap-1.5">
+              <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-1.5">
                 {hike.images.map((_, idx) => (
                   <span
                     key={idx}
@@ -150,9 +163,9 @@ function SpotPage() {
         </div>
       </div>
 
-      {/* Stats */}
+      {/* Stats — floating below, detached from photo */}
       <div className="px-4">
-        <div className="-mt-6 grid grid-cols-3 gap-2 rounded-2xl bg-card p-3 text-center ring-1 ring-white/10 shadow-lg shadow-black/40">
+        <div className="mt-4 grid grid-cols-3 gap-2 rounded-2xl bg-card p-3 text-center ring-1 ring-white/10 shadow-lg shadow-black/40">
           <Stat label="Distance" value={`${kmToMi(hike.distanceKm)} mi`} />
           <Stat
             label="Elevation"
@@ -172,74 +185,152 @@ function SpotPage() {
         </div>
       </div>
 
+      {/* Quick actions */}
+      <div className="mt-4 grid grid-cols-2 gap-2 px-4">
+        <button
+          type="button"
+          onClick={() => setVisited((v) => !v)}
+          className={cn(
+            "rounded-2xl p-3 text-sm font-semibold ring-1 transition",
+            visited
+              ? "bg-primary/15 text-primary ring-primary/30"
+              : "bg-white/[0.04] text-white ring-white/10 hover:bg-white/[0.06]",
+          )}
+        >
+          {visited ? "✓ Visited" : "Mark Visited"}
+        </button>
+        <button
+          type="button"
+          onClick={() => setSaved((v) => !v)}
+          className={cn(
+            "rounded-2xl p-3 text-sm font-semibold ring-1 transition",
+            saved
+              ? "bg-primary/15 text-primary ring-primary/30"
+              : "bg-white/[0.04] text-white ring-white/10 hover:bg-white/[0.06]",
+          )}
+        >
+          {saved ? "♥ Saved" : "Save Spot"}
+        </button>
+      </div>
+
+      {/* Details rows */}
+      <section className="mt-6 px-4">
+        <div className="divide-y divide-white/5 rounded-2xl bg-white/[0.03] ring-1 ring-white/10">
+          <DetailRow label="Region" value={hike.region} />
+          {hike.access && <DetailRow label="Access" value={hike.access} />}
+          <DetailRow
+            label="Effort"
+            value={
+              <span className="inline-flex items-center gap-2">
+                <span
+                  className={cn(
+                    "rounded-md px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider",
+                    DIFF_BADGE[hike.difficulty],
+                  )}
+                >
+                  {hike.difficulty}
+                </span>
+                <span className="text-white/80">
+                  {kmToMi(hike.distanceKm)} mi · ↑{" "}
+                  {mToFt(hike.elevationM).toLocaleString()} ft
+                </span>
+              </span>
+            }
+          />
+          {hike.bestLight && (
+            <DetailRow label="Best Light" value={hike.bestLight} />
+          )}
+        </div>
+      </section>
+
       {/* Overview */}
       <section className="mt-6 px-4">
         <SectionHeader>Overview</SectionHeader>
         <p className="mt-2 text-sm leading-relaxed text-white/70">
           {hike.description}
         </p>
-        {state && (
-          <p className="mt-3 text-xs text-white/40">
-            Part of {state.name} — {state.blurb}
-          </p>
-        )}
       </section>
 
-      {/* Instagram */}
+      {/* Tyler's Notes */}
+      {hike.notes && (
+        <section className="mt-6 px-4">
+          <SectionHeader>Tyler's Notes</SectionHeader>
+          <div className="mt-2 rounded-2xl bg-white/[0.03] p-4 text-sm leading-relaxed text-white/70 ring-1 ring-white/10">
+            {hike.notes}
+          </div>
+        </section>
+      )}
+
+      {/* Photo tip */}
+      {hike.photoTip && (
+        <section className="mt-4 px-4">
+          <div className="rounded-2xl bg-primary/10 p-4 text-sm leading-relaxed text-primary ring-1 ring-primary/20">
+            📸 {hike.photoTip}
+          </div>
+        </section>
+      )}
+
+      {/* Instagram embeds */}
       <section className="mt-8 px-4">
-        <SectionHeader
-          right={
-            <span className="text-[11px] text-white/40">
-              Add clips in <code>hikes.ts → instagram</code>
-            </span>
-          }
-        >
+        <SectionHeader>
           <span className="inline-flex items-center gap-2">
             <Instagram className="h-4 w-4 text-primary" />
-            From the ground
+            Reels from the spot
           </span>
         </SectionHeader>
 
         {hike.instagram && hike.instagram.length > 0 ? (
           <div className="-mx-4 mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {hike.instagram.map((clip) => (
-              <a
-                key={clip.url}
-                href={clip.url}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="group relative aspect-[9/16] w-40 shrink-0 snap-start overflow-hidden rounded-2xl bg-black ring-1 ring-white/10"
-              >
-                <img
-                  src={hike.images[0]}
-                  alt={clip.caption ?? "Instagram clip"}
-                  className="h-full w-full scale-105 object-cover opacity-70 transition group-hover:opacity-90"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-                <div className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-black/60 text-white">
-                  <Instagram className="h-4 w-4" />
+            {hike.instagram.map((clip) => {
+              const embed = toEmbedUrl(clip.url);
+              return (
+                <div
+                  key={clip.url}
+                  className="w-[320px] shrink-0 snap-start overflow-hidden rounded-2xl bg-black ring-1 ring-white/10"
+                >
+                  {embed ? (
+                    <iframe
+                      src={embed}
+                      title={clip.caption ?? "Instagram reel"}
+                      className="block h-[560px] w-full border-0"
+                      loading="lazy"
+                      allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <a
+                      href={clip.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="block p-6 text-sm text-white/70"
+                    >
+                      Open reel ↗
+                    </a>
+                  )}
+                  {clip.caption && (
+                    <div className="border-t border-white/10 p-3 text-xs text-white/70">
+                      {clip.caption}
+                    </div>
+                  )}
                 </div>
-                <div className="absolute inset-x-2 bottom-2 text-[11px] leading-tight text-white">
-                  {clip.caption ?? "Open reel"}
-                </div>
-              </a>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="mt-3 rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-5 text-center text-xs text-white/50">
-            No Instagram clips yet for {hike.name}. Paste reel URLs into this
-            spot's <code className="text-white/70">instagram</code> array to
-            feature them here.
+            Paste Instagram reel URLs into this spot's{" "}
+            <code className="text-white/70">instagram</code> array to embed them
+            here.
           </div>
         )}
       </section>
 
       {/* Open on map */}
       <section className="mt-8 px-4">
-        <Link
-          to="/map"
-          search={{ id: hike.id }}
-          className="flex items-center justify-between rounded-2xl bg-white/[0.04] p-4 ring-1 ring-white/10 hover:bg-white/[0.06]"
+        <button
+          type="button"
+          onClick={() => setShowMapPicker(true)}
+          className="flex w-full items-center justify-between rounded-2xl bg-white/[0.04] p-4 text-left ring-1 ring-white/10 hover:bg-white/[0.06]"
         >
           <div className="flex items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary">
@@ -253,7 +344,7 @@ function SpotPage() {
             </div>
           </div>
           <ChevronRight className="h-5 w-5 text-white/40" />
-        </Link>
+        </button>
       </section>
 
       {/* Related */}
@@ -284,6 +375,78 @@ function SpotPage() {
           </div>
         </section>
       )}
+
+      {/* Map picker sheet */}
+      {showMapPicker && (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm"
+          onClick={() => setShowMapPicker(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-t-3xl bg-card p-5 ring-1 ring-white/10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <div className="text-sm font-semibold text-white">Open in…</div>
+              <button
+                type="button"
+                onClick={() => setShowMapPicker(false)}
+                aria-label="Close"
+                className="grid h-8 w-8 place-items-center rounded-full bg-white/5 text-white/70"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="space-y-2">
+              <a
+                href={amaps}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="flex items-center gap-3 rounded-2xl bg-white/[0.04] p-4 ring-1 ring-white/10 hover:bg-white/[0.08]"
+              >
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-white text-black">
+                  <Apple className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-semibold text-white">Apple Maps</div>
+                  <div className="text-xs text-white/50">Open directions on iOS / macOS</div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-white/40" />
+              </a>
+              <a
+                href={gmaps}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="flex items-center gap-3 rounded-2xl bg-white/[0.04] p-4 ring-1 ring-white/10 hover:bg-white/[0.08]"
+              >
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#4285F4] text-white">
+                  <Navigation className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-semibold text-white">Google Maps</div>
+                  <div className="text-xs text-white/50">Open in browser or app</div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-white/40" />
+              </a>
+              <Link
+                to="/map"
+                search={{ id: hike.id }}
+                onClick={() => setShowMapPicker(false)}
+                className="flex items-center gap-3 rounded-2xl bg-white/[0.04] p-4 ring-1 ring-white/10 hover:bg-white/[0.08]"
+              >
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary">
+                  <MapPin className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-semibold text-white">In-app map</div>
+                  <div className="text-xs text-white/50">See it on Trail Atlas</div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-white/40" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -312,6 +475,17 @@ function Stat({ label, value }: { label: string; value: React.ReactNode }) {
         {label}
       </div>
       <div className="mt-0.5 text-sm font-semibold text-white">{value}</div>
+    </div>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="grid grid-cols-[110px_1fr] items-center gap-3 p-4">
+      <div className="text-[11px] font-semibold uppercase tracking-widest text-white/40">
+        {label}
+      </div>
+      <div className="text-sm text-white">{value}</div>
     </div>
   );
 }
