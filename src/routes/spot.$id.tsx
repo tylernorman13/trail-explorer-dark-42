@@ -61,12 +61,28 @@ function toEmbedUrl(url: string): string | null {
 
 function SpotPage() {
   const { id } = Route.useParams();
+  const router = useRouter();
   const hike = HIKES.find((h) => h.id === id)!;
   const [i, setI] = useState(0);
   const [saved, setSaved] = useState(false);
   const [visited, setVisited] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const state = STATES.find((s) => s.code === hike.state);
+
+  const goBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.history.back();
+    } else {
+      router.navigate({ to: "/" });
+    }
+  };
+
+  const openExternal = (url: string) => {
+    const win = window.open(url, "_blank", "noopener,noreferrer");
+    if (!win) window.top?.location.assign(url);
+    setShowMapPicker(false);
+  };
+
 
   const prev = () =>
     setI((v) => (v - 1 + hike.images.length) % hike.images.length);
