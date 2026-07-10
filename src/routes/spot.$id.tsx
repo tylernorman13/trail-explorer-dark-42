@@ -73,7 +73,16 @@ function SpotPage() {
   const { saved, toggle: toggleSaved } = useSaved(id);
   const { visited, toggle: toggleVisited } = useVisited(id);
   const [showMapPicker, setShowMapPicker] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const { extras, save: saveExtras } = useHikeExtras(id);
   const state = STATES.find((s) => s.code === hike.state);
+
+  // Merge hardcoded + user-edited extras
+  const alltrailsUrl = extras.alltrailsUrl ?? hike.alltrailsUrl;
+  const instagramClips = [
+    ...(hike.instagram ?? []),
+    ...((extras.instagramUrls ?? []).map((url) => ({ url }))),
+  ];
 
   const goBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
