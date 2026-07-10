@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
 import { HIKES, STATES, kmToMi, mToFt, type Hike } from "@/lib/hikes";
-import { useSaved } from "@/hooks/use-saved";
+import { useSaved, useVisited } from "@/hooks/use-saved";
 import { cn } from "@/lib/utils";
 
 
@@ -67,7 +67,7 @@ function SpotPage() {
   const hike = HIKES.find((h) => h.id === id)!;
   const [i, setI] = useState(0);
   const { saved, toggle: toggleSaved } = useSaved(id);
-  const [visited, setVisited] = useState(false);
+  const { visited, toggle: toggleVisited } = useVisited(id);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const state = STATES.find((s) => s.code === hike.state);
 
@@ -209,7 +209,7 @@ function SpotPage() {
       <div className="mt-4 grid grid-cols-2 gap-2 px-4">
         <button
           type="button"
-          onClick={() => setVisited((v) => !v)}
+          onClick={() => toggleVisited()}
           className={cn(
             "rounded-2xl p-3 text-sm font-semibold ring-1 transition",
             visited
