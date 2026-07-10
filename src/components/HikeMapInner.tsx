@@ -88,6 +88,7 @@ interface Props {
 
 export function HikeMapInner({ hikes, selectedId, onSelect }: Props) {
   const selected = hikes.find((h) => h.id === selectedId) ?? null;
+  const highlight = useHighlightGeo();
 
   return (
     <MapContainer
@@ -102,6 +103,19 @@ export function HikeMapInner({ hikes, selectedId, onSelect }: Props) {
         attribution="&copy; OSM &copy; CARTO"
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
       />
+      {highlight && (
+        <GeoJSON
+          data={highlight}
+          style={{
+            color: "#c9d1da",
+            weight: 1,
+            opacity: 0.6,
+            fillColor: "#c9d1da",
+            fillOpacity: 0.18,
+          }}
+          interactive={false}
+        />
+      )}
       {hikes.map((hike) => (
         <Marker
           key={hike.id}
