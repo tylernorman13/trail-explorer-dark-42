@@ -67,7 +67,7 @@ function SpotPage() {
   const hike = HIKES.find((h) => h.id === id)!;
   const [i, setI] = useState(0);
   const { saved, toggle: toggleSaved } = useSaved(id);
-  const [visited, setVisited] = useState(false);
+  const { visited, toggle: toggleVisited } = useVisited(id);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const state = STATES.find((s) => s.code === hike.state);
 
