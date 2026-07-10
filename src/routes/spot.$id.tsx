@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   ChevronLeft,
@@ -13,6 +13,7 @@ import {
 import { AppTopBar } from "@/components/AppTopBar";
 import { HIKES, STATES, kmToMi, mToFt, type Hike } from "@/lib/hikes";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/spot/$id")({
   parseParams: (raw) => {
