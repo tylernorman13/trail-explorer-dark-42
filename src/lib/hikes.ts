@@ -75,7 +75,12 @@ export interface Hike {
   description: string;
   images: string[];
   instagram?: InstagramClip[];
+  access?: string;
+  bestLight?: "Sunrise" | "Golden Hour" | "Midday" | "Sunset" | "Blue Hour" | "Night";
+  notes?: string;
+  photoTip?: string;
 }
+
 
 export const HIKES: Hike[] = [
   // California
