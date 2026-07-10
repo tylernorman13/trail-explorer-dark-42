@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
 import { type Hike, kmToMi, mToFt } from "@/lib/hikes";
+import { useSaved } from "@/hooks/use-saved";
 import { cn } from "@/lib/utils";
+
 
 const dotColor: Record<Hike["difficulty"], string> = {
   Easy: "bg-emerald-400",
@@ -11,6 +13,7 @@ const dotColor: Record<Hike["difficulty"], string> = {
 };
 
 export function HikeCard({ hike, compact = false }: { hike: Hike; compact?: boolean }) {
+  const { saved, toggle } = useSaved(hike.id);
   return (
     <Link
       to="/spot/$id"
@@ -26,14 +29,23 @@ export function HikeCard({ hike, compact = false }: { hike: Hike; compact?: bool
         />
         <button
           type="button"
-          aria-label="Save"
+          aria-label={saved ? "Remove from saved" : "Save"}
+          aria-pressed={saved}
           onClick={(e) => {
             e.preventDefault();
+            e.stopPropagation();
+            toggle();
           }}
-          className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-black/50 text-white/80 backdrop-blur transition hover:bg-black/70 hover:text-white"
+          className={cn(
+            "absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full backdrop-blur transition",
+            saved
+              ? "bg-primary text-primary-foreground"
+              : "bg-black/50 text-white/80 hover:bg-black/70 hover:text-white",
+          )}
         >
-          <Heart className="h-4 w-4" />
+          <Heart className="h-4 w-4" fill={saved ? "currentColor" : "none"} />
         </button>
+
         <div className={cn("absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-black/50 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white/80 backdrop-blur")}>
           <span className={cn("h-1.5 w-1.5 rounded-full", dotColor[hike.difficulty])} />
           {hike.difficulty}

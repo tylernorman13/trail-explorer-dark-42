@@ -12,7 +12,9 @@ import {
 } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
 import { HIKES, STATES, kmToMi, mToFt, type Hike } from "@/lib/hikes";
+import { useSaved } from "@/hooks/use-saved";
 import { cn } from "@/lib/utils";
+
 
 
 export const Route = createFileRoute("/spot/$id")({
@@ -64,7 +66,7 @@ function SpotPage() {
   const router = useRouter();
   const hike = HIKES.find((h) => h.id === id)!;
   const [i, setI] = useState(0);
-  const [saved, setSaved] = useState(false);
+  const { saved, toggle: toggleSaved } = useSaved(id);
   const [visited, setVisited] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const state = STATES.find((s) => s.code === hike.state);
@@ -124,7 +126,7 @@ function SpotPage() {
             <button
               type="button"
               aria-label="Save"
-              onClick={() => setSaved((v) => !v)}
+              onClick={() => toggleSaved()}
               className={cn(
                 "grid h-9 w-9 place-items-center rounded-full backdrop-blur transition",
                 saved ? "bg-primary text-primary-foreground" : "bg-black/60 text-white",
@@ -219,7 +221,7 @@ function SpotPage() {
         </button>
         <button
           type="button"
-          onClick={() => setSaved((v) => !v)}
+          onClick={() => toggleSaved()}
           className={cn(
             "rounded-2xl p-3 text-sm font-semibold ring-1 transition",
             saved
