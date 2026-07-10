@@ -112,14 +112,15 @@ function SpotPage() {
 
           {/* Top actions */}
           <div className="absolute inset-x-3 top-3 flex items-center justify-between">
-            <Link
-              to="/region/$state"
-              params={{ state: hike.state }}
+            <button
+              type="button"
+              onClick={goBack}
               className="grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur"
               aria-label="Back"
             >
               <ChevronLeft className="h-5 w-5" />
-            </Link>
+            </button>
+
             <button
               type="button"
               aria-label="Save"
