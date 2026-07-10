@@ -532,6 +532,151 @@ function SpotPage() {
           </div>
         </div>
       )}
+
+      {showEdit && (
+        <EditLinksModal
+          initial={{
+            alltrailsUrl: extras.alltrailsUrl ?? hike.alltrailsUrl ?? "",
+            instagramUrls:
+              extras.instagramUrls ??
+              (hike.instagram ?? []).map((c) => c.url),
+          }}
+          onClose={() => setShowEdit(false)}
+          onSave={(v) => {
+            saveExtras(v);
+            setShowEdit(false);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+function EditLinksModal({
+  initial,
+  onClose,
+  onSave,
+}: {
+  initial: { alltrailsUrl: string; instagramUrls: string[] };
+  onClose: () => void;
+  onSave: (v: { alltrailsUrl: string; instagramUrls: string[] }) => void;
+}) {
+  const [alltrailsUrl, setAlltrailsUrl] = useState(initial.alltrailsUrl);
+  const [instaUrls, setInstaUrls] = useState<string[]>(
+    initial.instagramUrls.length > 0 ? initial.instagramUrls : [""],
+  );
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  const updateInsta = (i: number, val: string) =>
+    setInstaUrls((arr) => arr.map((u, idx) => (idx === i ? val : u)));
+  const addInsta = () => setInstaUrls((arr) => [...arr, ""]);
+  const removeInsta = (i: number) =>
+    setInstaUrls((arr) => arr.filter((_, idx) => idx !== i));
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center"
+      onClick={onClose}
+    >
+      <div
+        className="max-h-[85vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-card p-5 ring-1 ring-white/10 sm:rounded-3xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mb-4 flex items-center justify-between">
+          <div className="text-sm font-semibold text-white">Edit links</div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="grid h-8 w-8 place-items-center rounded-full bg-white/5 text-white/70"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        <div className="space-y-5">
+          <div>
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-white/50">
+              AllTrails URL
+            </label>
+            <input
+              type="url"
+              placeholder="https://www.alltrails.com/trail/..."
+              value={alltrailsUrl}
+              onChange={(e) => setAlltrailsUrl(e.target.value)}
+              className="w-full rounded-xl bg-white/[0.04] px-3 py-2.5 text-sm text-white placeholder:text-white/30 ring-1 ring-white/10 focus:outline-none focus:ring-primary/40"
+            />
+          </div>
+
+          <div>
+            <div className="mb-1.5 flex items-center justify-between">
+              <label className="block text-[11px] font-semibold uppercase tracking-widest text-white/50">
+                Instagram reel URLs
+              </label>
+              <button
+                type="button"
+                onClick={addInsta}
+                className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2.5 py-1 text-[11px] font-semibold text-white/70 ring-1 ring-white/10 hover:bg-white/10"
+              >
+                <Plus className="h-3 w-3" />
+                Add
+              </button>
+            </div>
+            <div className="space-y-2">
+              {instaUrls.map((u, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <input
+                    type="url"
+                    placeholder="https://www.instagram.com/reel/..."
+                    value={u}
+                    onChange={(e) => updateInsta(i, e.target.value)}
+                    className="flex-1 rounded-xl bg-white/[0.04] px-3 py-2.5 text-sm text-white placeholder:text-white/30 ring-1 ring-white/10 focus:outline-none focus:ring-primary/40"
+                  />
+                  {instaUrls.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeInsta(i)}
+                      aria-label="Remove"
+                      className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-white/60 hover:bg-white/10 hover:text-rose-300"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 flex gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 rounded-2xl bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06]"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              onSave({
+                alltrailsUrl: alltrailsUrl.trim(),
+                instagramUrls: instaUrls.map((u) => u.trim()).filter(Boolean),
+              })
+            }
+            className="flex-1 rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90"
+          >
+            Save
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
