@@ -12,7 +12,9 @@ import {
 } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
 import { HIKES, STATES, kmToMi, mToFt, type Hike } from "@/lib/hikes";
+import { useSaved } from "@/hooks/use-saved";
 import { cn } from "@/lib/utils";
+
 
 
 export const Route = createFileRoute("/spot/$id")({
