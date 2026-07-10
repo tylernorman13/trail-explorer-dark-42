@@ -416,11 +416,10 @@ function SpotPage() {
               </button>
             </div>
             <div className="space-y-2">
-              <a
-                href={amaps}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="flex items-center gap-3 rounded-2xl bg-white/[0.04] p-4 ring-1 ring-white/10 hover:bg-white/[0.08]"
+              <button
+                type="button"
+                onClick={() => openExternal(amaps)}
+                className="flex w-full items-center gap-3 rounded-2xl bg-white/[0.04] p-4 text-left ring-1 ring-white/10 hover:bg-white/[0.08]"
               >
                 <div className="grid h-10 w-10 place-items-center rounded-xl bg-white text-black">
                   <Apple className="h-5 w-5" />
@@ -430,12 +429,11 @@ function SpotPage() {
                   <div className="text-xs text-white/50">Open directions on iOS / macOS</div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-white/40" />
-              </a>
-              <a
-                href={gmaps}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="flex items-center gap-3 rounded-2xl bg-white/[0.04] p-4 ring-1 ring-white/10 hover:bg-white/[0.08]"
+              </button>
+              <button
+                type="button"
+                onClick={() => openExternal(gmaps)}
+                className="flex w-full items-center gap-3 rounded-2xl bg-white/[0.04] p-4 text-left ring-1 ring-white/10 hover:bg-white/[0.08]"
               >
                 <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#4285F4] text-white">
                   <Navigation className="h-5 w-5" />
@@ -445,13 +443,13 @@ function SpotPage() {
                   <div className="text-xs text-white/50">Open in browser or app</div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-white/40" />
-              </a>
+              </button>
               <Link
                 to="/map"
-                search={{ id: hike.id }}
                 onClick={() => setShowMapPicker(false)}
                 className="flex items-center gap-3 rounded-2xl bg-white/[0.04] p-4 ring-1 ring-white/10 hover:bg-white/[0.08]"
               >
+
                 <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary">
                   <MapPin className="h-5 w-5" />
                 </div>
