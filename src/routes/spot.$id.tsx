@@ -209,7 +209,7 @@ function SpotPage() {
       <div className="mt-4 grid grid-cols-2 gap-2 px-4">
         <button
           type="button"
-          onClick={() => setVisited((v) => !v)}
+          onClick={() => toggleVisited()}
           className={cn(
             "rounded-2xl p-3 text-sm font-semibold ring-1 transition",
             visited
