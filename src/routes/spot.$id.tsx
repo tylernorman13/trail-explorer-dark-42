@@ -305,16 +305,27 @@ function SpotPage() {
 
       {/* Instagram embeds */}
       <section className="mt-8 px-4">
-        <SectionHeader>
+        <SectionHeader
+          right={
+            <button
+              type="button"
+              onClick={() => setShowEdit(true)}
+              className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2.5 py-1 text-[11px] font-semibold text-white/70 ring-1 ring-white/10 hover:bg-white/10"
+            >
+              <Pencil className="h-3 w-3" />
+              Edit links
+            </button>
+          }
+        >
           <span className="inline-flex items-center gap-2">
             <Instagram className="h-4 w-4 text-primary" />
             Reels from the spot
           </span>
         </SectionHeader>
 
-        {hike.instagram && hike.instagram.length > 0 ? (
+        {instagramClips.length > 0 ? (
           <div className="-mx-4 mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {hike.instagram.map((clip) => {
+            {instagramClips.map((clip) => {
               const embed = toEmbedUrl(clip.url);
               return (
                 <div
@@ -350,20 +361,22 @@ function SpotPage() {
             })}
           </div>
         ) : (
-          <div className="mt-3 rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-5 text-center text-xs text-white/50">
-            Paste Instagram reel URLs into this spot's{" "}
-            <code className="text-white/70">instagram</code> array to embed them
-            here.
-          </div>
+          <button
+            type="button"
+            onClick={() => setShowEdit(true)}
+            className="mt-3 block w-full rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-5 text-center text-xs text-white/50 hover:bg-white/[0.04]"
+          >
+            + Add Instagram reel URLs for this spot
+          </button>
         )}
       </section>
 
       {/* AllTrails link */}
-      {hike.alltrailsUrl && (
+      {alltrailsUrl ? (
         <section className="mt-6 px-4">
           <button
             type="button"
-            onClick={() => openExternal(hike.alltrailsUrl!)}
+            onClick={() => openExternal(alltrailsUrl)}
             className="flex w-full items-center justify-between rounded-2xl bg-white/[0.04] p-4 text-left ring-1 ring-white/10 hover:bg-white/[0.06]"
           >
             <div className="flex items-center gap-3">
@@ -380,6 +393,20 @@ function SpotPage() {
               </div>
             </div>
             <ChevronRight className="h-5 w-5 text-white/40" />
+          </button>
+        </section>
+      ) : (
+        <section className="mt-6 px-4">
+          <button
+            type="button"
+            onClick={() => setShowEdit(true)}
+            className="flex w-full items-center justify-between rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-4 text-left text-xs text-white/50 hover:bg-white/[0.04]"
+          >
+            <span className="inline-flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              Add AllTrails link
+            </span>
+            <ChevronRight className="h-4 w-4 text-white/30" />
           </button>
         </section>
       )}
