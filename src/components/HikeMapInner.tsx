@@ -1,14 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import L from "leaflet";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Tooltip,
+  GeoJSON,
   useMap,
 } from "react-leaflet";
 import type { Hike } from "@/lib/hikes";
 import { kmToMi, mToFt } from "@/lib/hikes";
+
+const HIGHLIGHT_STATES = ["washington", "oregon", "california"] as const;
+
+function useHighlightGeo() {
+  const [geo, setGeo] = useState<GeoJSON.FeatureCollection | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all(
+      HIGHLIGHT_STATES.map((s) =>
+        fetch(
+          `https://raw.githubusercontent.com/glynnbird/usstatesgeojson/master/${s}.geojson`,
+        ).then((r) => (r.ok ? r.json() : null)),
+      ),
+    )
+      .then((results) => {
+        if (cancelled) return;
+        const features = results.filter(Boolean).flatMap((g: any) =>
+          g.type === "FeatureCollection" ? g.features : [g],
+        );
+        if (features.length) setGeo({ type: "FeatureCollection", features });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  return geo;
+}
 
 const DOT_COLOR = "#d85c2b";
 
