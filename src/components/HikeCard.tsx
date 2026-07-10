@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
 import { type Hike, kmToMi, mToFt } from "@/lib/hikes";
+import { useSaved } from "@/hooks/use-saved";
 import { cn } from "@/lib/utils";
+
 
 const dotColor: Record<Hike["difficulty"], string> = {
   Easy: "bg-emerald-400",
