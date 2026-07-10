@@ -1,14 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import L from "leaflet";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Tooltip,
+  GeoJSON,
   useMap,
 } from "react-leaflet";
 import type { Hike } from "@/lib/hikes";
 import { kmToMi, mToFt } from "@/lib/hikes";
+
+const HIGHLIGHT_STATES = ["washington", "oregon", "california"] as const;
+
+function useHighlightGeo() {
+  const [geo, setGeo] = useState<GeoJSON.FeatureCollection | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all(
+      HIGHLIGHT_STATES.map((s) =>
+        fetch(
+          `https://raw.githubusercontent.com/glynnbird/usstatesgeojson/master/${s}.geojson`,
+        ).then((r) => (r.ok ? r.json() : null)),
+      ),
+    )
+      .then((results) => {
+        if (cancelled) return;
+        const features = results.filter(Boolean).flatMap((g: any) =>
+          g.type === "FeatureCollection" ? g.features : [g],
+        );
+        if (features.length) setGeo({ type: "FeatureCollection", features });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  return geo;
+}
 
 const DOT_COLOR = "#d85c2b";
 
@@ -59,6 +88,7 @@ interface Props {
 
 export function HikeMapInner({ hikes, selectedId, onSelect }: Props) {
   const selected = hikes.find((h) => h.id === selectedId) ?? null;
+  const highlight = useHighlightGeo();
 
   return (
     <MapContainer
@@ -73,6 +103,19 @@ export function HikeMapInner({ hikes, selectedId, onSelect }: Props) {
         attribution="&copy; OSM &copy; CARTO"
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
       />
+      {highlight && (
+        <GeoJSON
+          data={highlight}
+          style={{
+            color: "#c9d1da",
+            weight: 1,
+            opacity: 0.6,
+            fillColor: "#c9d1da",
+            fillOpacity: 0.18,
+          }}
+          interactive={false}
+        />
+      )}
       {hikes.map((hike) => (
         <Marker
           key={hike.id}
