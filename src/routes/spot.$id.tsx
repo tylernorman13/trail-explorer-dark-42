@@ -126,7 +126,7 @@ function SpotPage() {
             <button
               type="button"
               aria-label="Save"
-              onClick={() => setSaved((v) => !v)}
+              onClick={() => toggleSaved()}
               className={cn(
                 "grid h-9 w-9 place-items-center rounded-full backdrop-blur transition",
                 saved ? "bg-primary text-primary-foreground" : "bg-black/60 text-white",
@@ -221,7 +221,7 @@ function SpotPage() {
         </button>
         <button
           type="button"
-          onClick={() => setSaved((v) => !v)}
+          onClick={() => toggleSaved()}
           className={cn(
             "rounded-2xl p-3 text-sm font-semibold ring-1 transition",
             saved
