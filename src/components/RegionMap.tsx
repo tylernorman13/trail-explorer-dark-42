@@ -206,24 +206,82 @@ export function RegionList() {
   );
 }
 
-function MiniState({ code }: { code: StateCode }) {
+function pathBBox(d: string) {
+  const nums = d.match(/-?\d+\.?\d*/g)?.map(Number) ?? [];
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (let i = 0; i < nums.length; i += 2) {
+    const x = nums[i], y = nums[i + 1];
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+  }
+  return { minX, minY, maxX, maxY };
+}
+
+export function StateShape({
+  code,
+  color = "#d85c2b",
+}: {
+  code: StateCode;
+  color?: string;
+}) {
+  const d = STATE_PATHS[code];
+  const { minX, minY, maxX, maxY } = pathBBox(d);
+  const pad = 4;
+  const w = maxX - minX + pad * 2;
+  const h = maxY - minY + pad * 2;
   return (
     <svg
-      viewBox={`0 0 ${MAP_VIEWBOX.w} ${MAP_VIEWBOX.h}`}
+      viewBox={`${minX - pad} ${minY - pad} ${w} ${h}`}
       className="h-full w-full"
       preserveAspectRatio="xMidYMid meet"
     >
-      {(Object.keys(STATE_PATHS) as StateCode[]).map((c) => (
-        <path
-          key={c}
-          d={STATE_PATHS[c]}
-          fill={c === code ? "#d85c2b" : "#e8e5df"}
-          fillOpacity={c === code ? 0.9 : 0.28}
-          stroke="#0a0a0a"
-          strokeWidth={0.8}
-          strokeLinejoin="round"
-        />
-      ))}
+      <path d={d} fill={color} stroke="#0a0a0a" strokeOpacity={0.25} strokeWidth={0.6} strokeLinejoin="round" />
     </svg>
+  );
+}
+
+export function StateFilterCards({
+  selected,
+  onSelect,
+}: {
+  selected: StateCode | null;
+  onSelect: (code: StateCode) => void;
+}) {
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      {STATES.map((s) => {
+        const count = HIKES.filter((h) => h.state === s.code).length;
+        const active = selected === s.code;
+        const dim = selected && !active;
+        return (
+          <button
+            key={s.code}
+            onClick={() => onSelect(s.code)}
+            className={cn(
+              "flex flex-col items-center rounded-2xl bg-card p-3 text-left ring-1 transition",
+              active
+                ? "ring-primary"
+                : "ring-white/5 hover:ring-white/15",
+              dim && "opacity-60",
+            )}
+          >
+            <div className="aspect-square w-full">
+              <StateShape
+                code={s.code}
+                color={active ? "#d85c2b" : "#d85c2b"}
+              />
+            </div>
+            <div className="mt-2 w-full text-sm font-semibold text-white">
+              {s.name}
+            </div>
+            <div className="text-[11px] text-white/50">
+              {count} {count === 1 ? "spot" : "spots"}
+            </div>
+          </button>
+        );
+      })}
+    </div>
   );
 }
