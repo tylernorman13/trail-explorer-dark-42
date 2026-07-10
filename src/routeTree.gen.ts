@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SavedRouteImport } from './routes/saved'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SpotIdRouteImport } from './routes/spot.$id'
 import { Route as RegionStateRouteImport } from './routes/region.$state'
 
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
   path: '/menu',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
+  '/saved': typeof SavedRoute
   '/region/$state': typeof RegionStateRoute
   '/spot/$id': typeof SpotIdRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
+  '/saved': typeof SavedRoute
   '/region/$state': typeof RegionStateRoute
   '/spot/$id': typeof SpotIdRoute
 }
@@ -60,27 +68,43 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
   '/menu': typeof MenuRoute
+  '/saved': typeof SavedRoute
   '/region/$state': typeof RegionStateRoute
   '/spot/$id': typeof SpotIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
+  fullPaths: '/' | '/map' | '/menu' | '/saved' | '/region/$state' | '/spot/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
-  id: '__root__' | '/' | '/map' | '/menu' | '/region/$state' | '/spot/$id'
+  to: '/' | '/map' | '/menu' | '/saved' | '/region/$state' | '/spot/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/map'
+    | '/menu'
+    | '/saved'
+    | '/region/$state'
+    | '/spot/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MapRoute: typeof MapRoute
   MenuRoute: typeof MenuRoute
+  SavedRoute: typeof SavedRoute
   RegionStateRoute: typeof RegionStateRoute
   SpotIdRoute: typeof SpotIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/menu': {
       id: '/menu'
       path: '/menu'
@@ -123,6 +147,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MapRoute: MapRoute,
   MenuRoute: MenuRoute,
+  SavedRoute: SavedRoute,
   RegionStateRoute: RegionStateRoute,
   SpotIdRoute: SpotIdRoute,
 }
