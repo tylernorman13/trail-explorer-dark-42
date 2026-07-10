@@ -345,8 +345,35 @@ function SpotPage() {
         )}
       </section>
 
+      {/* AllTrails link */}
+      {hike.alltrailsUrl && (
+        <section className="mt-6 px-4">
+          <button
+            type="button"
+            onClick={() => openExternal(hike.alltrailsUrl!)}
+            className="flex w-full items-center justify-between rounded-2xl bg-white/[0.04] p-4 text-left ring-1 ring-white/10 hover:bg-white/[0.06]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#428813] text-white font-bold">
+                AT
+              </div>
+              <div>
+                <div className="text-sm font-semibold text-white">
+                  AllTrails hike
+                </div>
+                <div className="text-xs text-white/50">
+                  View the full trail on AllTrails
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="h-5 w-5 text-white/40" />
+          </button>
+        </section>
+      )}
+
       {/* Open on map */}
       <section className="mt-8 px-4">
+
         <button
           type="button"
           onClick={() => setShowMapPicker(true)}
