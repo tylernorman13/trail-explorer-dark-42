@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -9,10 +9,14 @@ import {
   Navigation,
   Apple,
   X,
+  Pencil,
+  Plus,
+  Trash2,
 } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
 import { HIKES, STATES, kmToMi, mToFt, type Hike } from "@/lib/hikes";
 import { useSaved, useVisited } from "@/hooks/use-saved";
+import { useHikeExtras } from "@/hooks/use-hike-extras";
 import { cn } from "@/lib/utils";
 
 
