@@ -188,7 +188,7 @@ export function RegionList() {
               className="flex items-center gap-4 py-3 pr-2 transition hover:bg-white/[0.02]"
             >
               <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg bg-black/40 ring-1 ring-white/10">
-                <MiniState code={s.code} />
+                <StateShape code={s.code} />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="truncate text-base font-semibold text-white">
