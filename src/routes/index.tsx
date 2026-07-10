@@ -101,54 +101,67 @@ function Home() {
           Difficulty
         </div>
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <Chip active={diff === null} onClick={() => setDiff(null)}>
-            All <span className="opacity-60">({HIKES.length})</span>
-          </Chip>
-          {DIFFICULTIES.map((d) => {
-            const count = HIKES.filter(
+          {(() => {
+            const scoped = HIKES.filter(
               (h) =>
-                h.difficulty === d &&
-                (type ? h.type === type : true) &&
-                (state ? h.state === state : true),
-            ).length;
-            return (
-              <Chip
-                key={d}
-                active={diff === d}
-                onClick={() => setDiff(diff === d ? null : d)}
-              >
-                {d} <span className="opacity-60">({count})</span>
-              </Chip>
+                (state ? h.state === state : true) &&
+                (type ? h.type === type : true),
             );
-          })}
+            return (
+              <>
+                <Chip active={diff === null} onClick={() => setDiff(null)}>
+                  All <span className="opacity-60">({scoped.length})</span>
+                </Chip>
+                {DIFFICULTIES.map((d) => {
+                  const count = scoped.filter((h) => h.difficulty === d).length;
+                  return (
+                    <Chip
+                      key={d}
+                      active={diff === d}
+                      onClick={() => setDiff(diff === d ? null : d)}
+                    >
+                      {d} <span className="opacity-60">({count})</span>
+                    </Chip>
+                  );
+                })}
+              </>
+            );
+          })()}
         </div>
 
         <div className="mb-1 mt-2 text-[11px] font-semibold uppercase tracking-widest text-white/40">
           Type
         </div>
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <Chip active={type === null} onClick={() => setType(null)}>
-            All <span className="opacity-60">({HIKES.length})</span>
-          </Chip>
-          {HIKE_TYPES.map((t) => {
-            const count = HIKES.filter(
+          {(() => {
+            const scoped = HIKES.filter(
               (h) =>
-                h.type === t &&
-                (diff ? h.difficulty === diff : true) &&
-                (state ? h.state === state : true),
-            ).length;
-            return (
-              <Chip
-                key={t}
-                active={type === t}
-                onClick={() => setType(type === t ? null : t)}
-              >
-                {t} <span className="opacity-60">({count})</span>
-              </Chip>
+                (state ? h.state === state : true) &&
+                (diff ? h.difficulty === diff : true),
             );
-          })}
+            return (
+              <>
+                <Chip active={type === null} onClick={() => setType(null)}>
+                  All <span className="opacity-60">({scoped.length})</span>
+                </Chip>
+                {HIKE_TYPES.map((t) => {
+                  const count = scoped.filter((h) => h.type === t).length;
+                  return (
+                    <Chip
+                      key={t}
+                      active={type === t}
+                      onClick={() => setType(type === t ? null : t)}
+                    >
+                      {t} <span className="opacity-60">({count})</span>
+                    </Chip>
+                  );
+                })}
+              </>
+            );
+          })()}
         </div>
       </div>
+
 
       <div className="mt-3 flex items-center justify-between px-4">
         <div className="text-sm text-white/50">
