@@ -78,19 +78,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Trail Atlas — Interactive Hike Map" },
+      { title: "PeakTrails — Pacific Coast hiking guide" },
       {
         name: "description",
         content:
-          "Explore iconic hikes on a dark interactive world map with difficulty, stats and photos.",
+          "Explore Washington, Oregon and California hikes. Filter by state, difficulty and type — waterfalls, alpine lakes, ridges and peaks.",
       },
-      { property: "og:title", content: "Trail Atlas — Interactive Hike Map" },
+      { property: "og:title", content: "PeakTrails — Pacific Coast hiking guide" },
       {
         property: "og:description",
-        content: "Explore iconic hikes on a dark interactive world map.",
+        content: "Explore Washington, Oregon and California hikes. Filter by state, difficulty and type — waterfalls, alpine lakes, ridges and peaks.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "PeakTrails — Pacific Coast hiking guide" },
+      { name: "twitter:description", content: "Explore Washington, Oregon and California hikes. Filter by state, difficulty and type — waterfalls, alpine lakes, ridges and peaks." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/25836791-4b95-4c08-bf39-2051bd1cbeb6/id-preview-1340b8f5--5c6f07f8-60c2-47fb-abb1-9db6e3951f35.lovable.app-1783807381474.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/25836791-4b95-4c08-bf39-2051bd1cbeb6/id-preview-1340b8f5--5c6f07f8-60c2-47fb-abb1-9db6e3951f35.lovable.app-1783807381474.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

@@ -19,17 +19,17 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Trail Atlas — Pacific Coast hiking guide" },
+      { title: "PeakTrails — Pacific Coast hiking guide" },
       {
         name: "description",
         content:
           "Explore Washington, Oregon and California hikes. Filter by state, difficulty and type — waterfalls, alpine lakes, ridges and peaks.",
       },
-      { property: "og:title", content: "Trail Atlas — Pacific Coast hiking guide" },
+      { property: "og:title", content: "PeakTrails — Pacific Coast hiking guide" },
       {
         property: "og:description",
         content:
-          "Mobile-first guide to the best hikes in Washington, Oregon and California.",
+          "Explore Washington, Oregon and California hikes. Filter by state, difficulty and type — waterfalls, alpine lakes, ridges and peaks.",
       },
     ],
   }),
