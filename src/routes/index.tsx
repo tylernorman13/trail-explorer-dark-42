@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { Search } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
 import { StateFilterCards } from "@/components/RegionMap";
@@ -16,7 +16,37 @@ import {
 
 import { cn } from "@/lib/utils";
 
+type HomeSearch = {
+  state?: StateCode;
+  diff?: Difficulty;
+  type?: HikeType;
+  q?: string;
+};
+
+const STATE_CODES: StateCode[] = ["WA", "OR", "CA"];
+
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>): HomeSearch => {
+    const state = search.state;
+    const diff = search.diff;
+    const type = search.type;
+    const q = search.q;
+    return {
+      state:
+        typeof state === "string" && (STATE_CODES as string[]).includes(state)
+          ? (state as StateCode)
+          : undefined,
+      diff:
+        typeof diff === "string" && (DIFFICULTIES as string[]).includes(diff)
+          ? (diff as Difficulty)
+          : undefined,
+      type:
+        typeof type === "string" && (HIKE_TYPES as string[]).includes(type)
+          ? (type as HikeType)
+          : undefined,
+      q: typeof q === "string" && q.length > 0 ? q : undefined,
+    };
+  },
   head: () => ({
     meta: [
       { title: "PeakTrails — Pacific Coast hiking guide" },
@@ -37,10 +67,26 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const [state, setState] = useState<StateCode | null>(null);
-  const [diff, setDiff] = useState<Difficulty | null>(null);
-  const [type, setType] = useState<HikeType | null>(null);
-  const [q, setQ] = useState("");
+  const { state, diff, type, q } = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
+
+  const update = (patch: Partial<HomeSearch>) => {
+    navigate({
+      search: (prev) => {
+        const next = { ...prev, ...patch };
+        (Object.keys(next) as (keyof HomeSearch)[]).forEach((k) => {
+          if (next[k] === undefined || next[k] === "") delete next[k];
+        });
+        return next;
+      },
+      replace: true,
+    });
+  };
+
+  const setState = (v: StateCode | null) => update({ state: v ?? undefined });
+  const setDiff = (v: Difficulty | null) => update({ diff: v ?? undefined });
+  const setType = (v: HikeType | null) => update({ type: v ?? undefined });
+  const setQ = (v: string) => update({ q: v || undefined });
 
   const filtered = useMemo(
     () =>
@@ -56,6 +102,7 @@ function Home() {
         ),
     [state, diff, type, q],
   );
+
 
   return (
     <div className="pb-4">
