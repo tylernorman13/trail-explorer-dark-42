@@ -166,17 +166,6 @@ function SpotPage() {
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
-              <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-1.5">
-                {hike.images.map((_, idx) => (
-                  <span
-                    key={idx}
-                    className={cn(
-                      "h-1.5 rounded-full transition-all",
-                      idx === i ? "w-6 bg-white" : "w-1.5 bg-white/50",
-                    )}
-                  />
-                ))}
-              </div>
             </>
           )}
 
