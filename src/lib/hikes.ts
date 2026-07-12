@@ -2,6 +2,7 @@ import multnomahFalls from "@/assets/hikes/multnomah-falls.jpg";
 import trilliumLake from "@/assets/hikes/trillium-lake.jpg";
 import craterLakeRim from "@/assets/hikes/crater-lake-rim.jpg";
 import boardmanSecretBeach from "@/assets/hikes/boardman-secret-beach.jpg";
+import boardmanNaturalBridges from "@/assets/hikes/boardman-natural-bridges.jpg";
 import toketeeFalls from "@/assets/hikes/toketee-falls.jpg";
 import sahalieKoosah from "@/assets/hikes/sahalie-koosah.jpg";
 import blackButte from "@/assets/hikes/black-butte.jpg";
@@ -173,7 +174,7 @@ export const HIKES: Hike[] = [
     lng: -124.3639,
     description:
       "Iconic sea arches on the Samuel H. Boardman corridor. A 2-minute walk from the pull-off leads to a clifftop viewpoint over the natural rock bridges and turquoise coves.",
-    images: [boardmanSecretBeach, boardmanSecretBeach],
+    images: [boardmanNaturalBridges, boardmanNaturalBridges],
     access: "Free roadside pull-off on Hwy 101, Samuel H. Boardman corridor.",
     photoTip: "Midday sun angle lights the water blue.",
     bestLight: "Midday",
