@@ -1,11 +1,22 @@
-import halfdome1 from "@/assets/halfdome-1.jpg";
-import halfdome2 from "@/assets/halfdome-2.jpg";
-import angels1 from "@/assets/angels-1.jpg";
-import angels2 from "@/assets/angels-2.jpg";
-import alps1 from "@/assets/alps-1.jpg";
-import alps2 from "@/assets/alps-2.jpg";
-import torres1 from "@/assets/torres-1.jpg";
-import torres2 from "@/assets/torres-2.jpg";
+import multnomahFalls from "@/assets/hikes/multnomah-falls.jpg";
+import trilliumLake from "@/assets/hikes/trillium-lake.jpg";
+import craterLakeRim from "@/assets/hikes/crater-lake-rim.jpg";
+import boardmanSecretBeach from "@/assets/hikes/boardman-secret-beach.jpg";
+import toketeeFalls from "@/assets/hikes/toketee-falls.jpg";
+import sahalieKoosah from "@/assets/hikes/sahalie-koosah.jpg";
+import blackButte from "@/assets/hikes/black-butte.jpg";
+import pantherCreekFalls from "@/assets/hikes/panther-creek-falls.jpg";
+import mtStHelens from "@/assets/hikes/mt-st-helens.jpg";
+import dogMountain from "@/assets/hikes/dog-mountain.jpg";
+import campMuir from "@/assets/hikes/camp-muir.jpg";
+import mcclellanFalls from "@/assets/hikes/mcclellan-falls.jpg";
+import fallsCreekFalls from "@/assets/hikes/falls-creek-falls.jpg";
+import fernCanyon from "@/assets/hikes/fern-canyon.jpg";
+import tunnelView from "@/assets/hikes/tunnel-view.jpg";
+import mistTrail from "@/assets/hikes/mist-trail.jpg";
+import upperYosemiteFalls from "@/assets/hikes/upper-yosemite-falls.jpg";
+import kingsCanyonMistZumwalt from "@/assets/hikes/kings-canyon-mist-zumwalt.jpg";
+import yosemiteFallsVantage from "@/assets/hikes/yosemite-falls-vantage.jpg";
 
 export type Difficulty = "Easy" | "Moderate" | "Hard" | "Expert";
 export type HikeType =
@@ -101,7 +112,7 @@ export const HIKES: Hike[] = [
     lng: -122.1158,
     description:
       "Easiest waterfall stop in Oregon — paved path to the bridge viewpoint below the 620-ft double drop.",
-    images: [alps2, alps1],
+    images: [multnomahFalls, multnomahFalls],
     access:
       "Timed-entry permit required in summer ($2, recreation.gov) for the I-84 lot.",
     notes: "Permit rules change — confirm on recreation.gov before you drive out.",
@@ -120,7 +131,7 @@ export const HIKES: Hike[] = [
     lng: -121.7361,
     description:
       "Small alpine lake with a picture-perfect reflection of Mt Hood. Flat loop around the shoreline.",
-    images: [alps1, alps2],
+    images: [trilliumLake, trilliumLake],
     access: "Day-use parking at the lake — NW Forest Pass or ~$10 day fee.",
     photoTip:
       "Mt Hood reflection shot — calm mornings, shoot from the south end / dock.",
@@ -141,7 +152,7 @@ export const HIKES: Hike[] = [
     lng: -122.109,
     description:
       "The deepest, bluest lake in the country from the rim road. A driving loop with pull-off viewpoints, not a hike.",
-    images: [alps1, alps2],
+    images: [craterLakeRim, craterLakeRim],
     access: "$35 NPS entry — Rim Drive fully open roughly July–October only.",
     photoTip:
       "Drive Rim Drive clockwise; Cloudcap Overlook is the high point, Wizard Island anchors the shot.",
@@ -162,7 +173,7 @@ export const HIKES: Hike[] = [
     lng: -124.3577,
     description:
       "Two roadside stops on the Samuel H. Boardman corridor. Natural Bridges is a 2-min walk from the pull-off; Secret Beach is a short, steep trail down to sea stacks and coves.",
-    images: [torres1, alps2],
+    images: [boardmanSecretBeach, boardmanSecretBeach],
     access: "Free roadside pull-offs on Hwy 101, Samuel H. Boardman corridor.",
     photoTip: "Midday sun angle lights the water blue at Natural Bridges.",
     bestLight: "Midday",
@@ -182,7 +193,7 @@ export const HIKES: Hike[] = [
     lng: -122.4361,
     description:
       "Two-tier waterfall over columnar basalt — one of the most photogenic falls in Oregon. Easy 0.8mi round trip to the viewing platform.",
-    images: [alps2, alps1],
+    images: [toketeeFalls, toketeeFalls],
     access: "Free trailhead lot off Hwy 138.",
     instagram: [{ url: "https://www.instagram.com/p/DY2zZiTOdvE/" }],
   },
@@ -201,7 +212,7 @@ export const HIKES: Hike[] = [
     lng: -121.9989,
     description:
       "Two thundering McKenzie River waterfalls back to back. Drive-up, or walk the ~2.6mi loop that connects them.",
-    images: [alps1, alps2],
+    images: [sahalieKoosah, sahalieKoosah],
     access:
       "Free lots at both falls off Hwy 126 — or walk the ~2.6mi loop connecting them.",
     photoTip: "Midday clear sky = rainbow in the Koosah mist.",
@@ -222,7 +233,7 @@ export const HIKES: Hike[] = [
     lng: -121.6353,
     description:
       "~4mi round trip, steady climb to the summit lookout — sunset view straight across the Cascade peaks.",
-    images: [torres1, halfdome1],
+    images: [blackButte, blackButte],
     access:
       "Forest road to the upper trailhead — rough gravel, high clearance helps.",
     bestLight: "Sunset",
@@ -245,7 +256,7 @@ export const HIKES: Hike[] = [
     lng: -121.8236,
     description:
       "Tiered curtain waterfall hidden in mossy old growth. Very short walk from the road to the viewing platform.",
-    images: [alps2, torres1],
+    images: [pantherCreekFalls, pantherCreekFalls],
     access: "Roadside parking on FR-65, short walk to the platform.",
     notes: "Getting popular — go early.",
     instagram: [{ url: "https://www.instagram.com/p/DYnOHpqOiSm/" }],
@@ -264,7 +275,7 @@ export const HIKES: Hike[] = [
     lng: -122.2158,
     description:
       "Blast-zone panorama straight into the crater from Johnston Ridge — the front-row seat on the 1980 eruption.",
-    images: [torres2, alps1],
+    images: [mtStHelens, mtStHelens],
     access:
       "Johnston Ridge / Hwy 504 side — check road status, sections have had closures.",
     instagram: [{ url: "https://www.instagram.com/p/DXmwqvuj0Ng/" }],
@@ -283,7 +294,7 @@ export const HIKES: Hike[] = [
     lng: -121.7092,
     description:
       "Steep ~6–7mi round trip up to wildflower meadows over the Gorge. Honest note: view needs clear weather to be worth it.",
-    images: [halfdome1, torres1],
+    images: [dogMountain, dogMountain],
     access:
       "Permit required on spring weekends (wildflower season), NW Forest Pass.",
     notes: "TikTok clip: https://www.tiktok.com/@peaktyler/video/7642065938262658318",
@@ -302,7 +313,7 @@ export const HIKES: Hike[] = [
     lng: -121.7311,
     description:
       "Very hard: ~9mi round trip, 4,700ft gain, snowfield travel above Pebble Creek — conditions-dependent.",
-    images: [alps1, torres2],
+    images: [campMuir, campMuir],
     access:
       "Park at Paradise — $30 NPS entry; timed reservations in peak summer.",
     instagram: [{ url: "https://www.instagram.com/p/DYfiJFShFk8/" }],
@@ -321,7 +332,7 @@ export const HIKES: Hike[] = [
     lng: -121.5,
     description:
       "Off-the-radar Cascade waterfall — obscure enough that first-hand beta is the whole point.",
-    images: [alps2, alps1],
+    images: [mcclellanFalls, mcclellanFalls],
     notes: "Beta needed — add trailhead, access and route details before publishing.",
     instagram: [{ url: "https://www.instagram.com/p/DXez5kwjrNU/" }],
   },
@@ -339,7 +350,7 @@ export const HIKES: Hike[] = [
     lng: -121.9436,
     description:
       "Moderate ~3.4mi round trip through mossy forest to a three-tier waterfall in a rock amphitheater.",
-    images: [alps1, torres2],
+    images: [fallsCreekFalls, fallsCreekFalls],
     access: "Free trailhead lot, gravel forest road in.",
     instagram: [{ url: "https://www.instagram.com/reel/DYDfkYKhheP/" }],
   },
@@ -359,7 +370,7 @@ export const HIKES: Hike[] = [
     lng: -124.0653,
     description:
       "Walk the canyon floor between 50-ft fern walls — the primeval slot in the redwoods.",
-    images: [alps2, torres1],
+    images: [fernCanyon, fernCanyon],
     access:
       "Summer permit required (free but limited, recreation.gov) + day-use fee; rough road in, creek crossings.",
   },
@@ -377,7 +388,7 @@ export const HIKES: Hike[] = [
     lng: -119.6771,
     description:
       "Roadside lot at the Wawona Tunnel exit — the classic Yosemite Valley panorama with El Capitan, Bridalveil and Half Dome. Best at sunrise or storm-clearing light.",
-    images: [halfdome1, halfdome2],
+    images: [tunnelView, tunnelView],
     access:
       "Yosemite: $35 entry; timed reservations on peak days.",
     bestLight: "Sunrise",
@@ -397,7 +408,7 @@ export const HIKES: Hike[] = [
     lng: -119.5432,
     description:
       "Steep ~3mi round trip to the top of Vernal — you will get soaked in spring flow, rainbow in the mist.",
-    images: [alps1, halfdome2],
+    images: [mistTrail, mistTrail],
     access: "Park at Happy Isles / valley shuttle.",
     instagram: [{ url: "https://www.instagram.com/p/DYM2jdMu84O/" }],
   },
@@ -415,7 +426,7 @@ export const HIKES: Hike[] = [
     lng: -119.5966,
     description:
       "Hard ~7.6mi round trip, 2,700ft of switchbacks up the north wall to the brink of North America's tallest waterfall.",
-    images: [alps2, alps1],
+    images: [upperYosemiteFalls, upperYosemiteFalls],
     access: "Camp 4 area parking — fills very early.",
     instagram: [{ url: "https://www.instagram.com/reel/DYQyA1qO2tG/" }],
   },
@@ -433,7 +444,7 @@ export const HIKES: Hike[] = [
     lng: -118.5828,
     description:
       "Mist Falls ~8mi round trip, gentle river-canyon walk; Zumwalt Meadow easy 1.5mi loop under Kings Canyon's walls.",
-    images: [torres2, alps1],
+    images: [kingsCanyonMistZumwalt, kingsCanyonMistZumwalt],
     access:
       "$35 entry; road to Roads End is seasonal (roughly late spring–fall).",
     instagram: [{ url: "https://www.instagram.com/reel/DYJHFSfOPY5/" }],
@@ -452,7 +463,7 @@ export const HIKES: Hike[] = [
     lng: -119.5936,
     description:
       "Ground-level vantage on Yosemite Falls from the valley floor — the frame that gets the full upper + lower drop in one shot.",
-    images: [alps1, halfdome1],
+    images: [yosemiteFallsVantage, yosemiteFallsVantage],
     notes:
       "Vantage TBD — decide whether to publish exact spot (Swinging Bridge / Cook's Meadow, or off-trail).",
     instagram: [{ url: "https://www.instagram.com/reel/DYLVLMyPPA_/" }],
