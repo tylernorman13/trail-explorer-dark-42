@@ -50,6 +50,12 @@ export function HikeCard({ hike, compact = false }: { hike: Hike; compact?: bool
           <span className={cn("h-1.5 w-1.5 rounded-full", dotColor[hike.difficulty])} />
           {hike.difficulty}
         </div>
+
+        {hike.viral && (
+          <div className="absolute bottom-3 left-3 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground shadow-lg">
+            Viral
+          </div>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="text-[11px] font-semibold uppercase leading-snug tracking-wider text-primary">
