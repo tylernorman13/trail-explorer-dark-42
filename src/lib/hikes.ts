@@ -2,6 +2,7 @@ import multnomahFalls from "@/assets/hikes/multnomah-falls.jpg";
 import trilliumLake from "@/assets/hikes/trillium-lake.jpg";
 import craterLakeRim from "@/assets/hikes/crater-lake-rim.jpg";
 import boardmanSecretBeach from "@/assets/hikes/boardman-secret-beach.jpg";
+import boardmanNaturalBridges from "@/assets/hikes/boardman-natural-bridges.jpg";
 import toketeeFalls from "@/assets/hikes/toketee-falls.jpg";
 import sahalieKoosah from "@/assets/hikes/sahalie-koosah.jpg";
 import blackButte from "@/assets/hikes/black-butte.jpg";
