@@ -81,6 +81,7 @@ export interface Hike {
   bestLight?: "Sunrise" | "Golden Hour" | "Midday" | "Sunset" | "Blue Hour" | "Night";
   notes?: string;
   photoTip?: string;
+  viral?: boolean;
 }
 
 
