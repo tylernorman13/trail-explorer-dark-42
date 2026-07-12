@@ -137,7 +137,7 @@ function Home() {
         </div>
         <StateFilterCards
           selected={state}
-          onSelect={(s) => setState((prev) => (prev === s ? null : s))}
+          onSelect={(s) => setState(state === s ? null : s)}
         />
       </section>
 
