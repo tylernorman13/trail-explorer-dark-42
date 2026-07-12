@@ -72,7 +72,7 @@ function Home() {
 
   const update = (patch: Partial<HomeSearch>) => {
     navigate({
-      search: (prev) => {
+      search: (prev: HomeSearch) => {
         const next = { ...prev, ...patch };
         (Object.keys(next) as (keyof HomeSearch)[]).forEach((k) => {
           if (next[k] === undefined || next[k] === "") delete next[k];
