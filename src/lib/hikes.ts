@@ -196,7 +196,7 @@ export const HIKES: Hike[] = [
     images: [boardmanSecretBeach, boardmanSecretBeach],
     access: "Free roadside pull-off on Hwy 101, Samuel H. Boardman corridor.",
     photoTip: "Time it near low tide to walk out among the sea stacks.",
-    bestLight: "Golden hour",
+    bestLight: "Golden Hour",
   },
   {
     id: "toketee-falls",
