@@ -174,7 +174,7 @@ export const HIKES: Hike[] = [
     lng: -124.3639,
     description:
       "Iconic sea arches on the Samuel H. Boardman corridor. A 2-minute walk from the pull-off leads to a clifftop viewpoint over the natural rock bridges and turquoise coves.",
-    images: [boardmanSecretBeach, boardmanSecretBeach],
+    images: [boardmanNaturalBridges, boardmanNaturalBridges],
     access: "Free roadside pull-off on Hwy 101, Samuel H. Boardman corridor.",
     photoTip: "Midday sun angle lights the water blue.",
     bestLight: "Midday",
