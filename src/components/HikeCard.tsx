@@ -20,13 +20,14 @@ export function HikeCard({ hike, compact = false }: { hike: Hike; compact?: bool
       params={{ id: hike.id }}
       className="group relative flex flex-col overflow-hidden rounded-2xl bg-card ring-1 ring-white/5 transition hover:ring-white/15"
     >
-      <div className={cn("relative w-full", compact ? "aspect-square" : "aspect-[4/5]")}>
+      <div className={cn("relative w-full overflow-hidden", compact ? "aspect-square" : "aspect-[4/5]")}>
         <img
           src={hike.images[0]}
           alt={hike.name}
           loading="lazy"
-          className="h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
         />
+
         <button
           type="button"
           aria-label={saved ? "Remove from saved" : "Save"}
