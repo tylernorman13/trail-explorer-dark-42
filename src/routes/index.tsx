@@ -99,7 +99,8 @@ function Home() {
                 s.toLowerCase().includes(q.toLowerCase()),
               )
             : true,
-        ),
+        )
+        .sort((a, b) => Number(!!b.viral) - Number(!!a.viral)),
     [state, diff, type, q],
   );
 
