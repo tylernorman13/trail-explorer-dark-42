@@ -149,6 +149,7 @@ export const HIKES: Hike[] = [
   },
   {
     id: "boardman-secret-beach",
+    viral: true,
     name: "Secret Beach & Natural Bridges",
     region: "Oregon Coast — Samuel H. Boardman",
     state: "OR",
@@ -187,6 +188,7 @@ export const HIKES: Hike[] = [
   },
   {
     id: "sahalie-koosah",
+    viral: true,
     name: "Sahalie Falls & Koosah Falls",
     region: "McKenzie River, Oregon",
     state: "OR",
@@ -230,6 +232,7 @@ export const HIKES: Hike[] = [
   // Washington
   {
     id: "panther-creek-falls",
+    viral: true,
     name: "Panther Creek Falls",
     region: "Gifford Pinchot NF, Washington",
     state: "WA",
@@ -381,6 +384,7 @@ export const HIKES: Hike[] = [
   },
   {
     id: "mist-trail",
+    viral: true,
     name: "Mist Trail — Vernal Falls",
     region: "Yosemite NP, California",
     state: "CA",
