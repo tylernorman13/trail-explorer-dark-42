@@ -54,10 +54,8 @@ export const HIKE_TYPES: HikeType[] = [
   "Peak",
   "Lake",
   "Waterfall",
-  "Ridge",
   "Viewpoint",
   "Valley",
-  "Glacier",
 ];
 
 export const DIFFICULTIES: Difficulty[] = ["Easy", "Moderate", "Hard", "Expert"];
