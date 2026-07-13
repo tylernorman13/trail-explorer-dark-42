@@ -22,10 +22,8 @@ import yosemiteFallsVantage from "@/assets/hikes/yosemite-falls-vantage.jpg";
 export type Difficulty = "Easy" | "Moderate" | "Hard" | "Expert";
 export type HikeType =
   | "Lake"
-  | "Glacier"
   | "Waterfall"
   | "Peak"
-  | "Ridge"
   | "Valley"
   | "Viewpoint";
 
