@@ -60,6 +60,12 @@ function makeDotIcon(active: boolean) {
   });
 }
 
+// Bounding box covering WA, OR, CA
+const WEST_COAST_BOUNDS = L.latLngBounds(
+  [32.3, -125.0], // SW corner (southern CA / Pacific)
+  [49.1, -114.0], // NE corner (northern WA / eastern edge)
+);
+
 function FitAndFly({
   hikes,
   selected,
@@ -69,7 +75,10 @@ function FitAndFly({
 }) {
   const map = useMap();
   useEffect(() => {
-    if (!hikes.length) return;
+    if (!hikes.length) {
+      map.fitBounds(WEST_COAST_BOUNDS, { padding: [20, 20] });
+      return;
+    }
     const bounds = L.latLngBounds(hikes.map((h) => [h.lat, h.lng]));
     map.fitBounds(bounds, { padding: [40, 40], maxZoom: 7 });
   }, [hikes, map]);
@@ -92,10 +101,12 @@ export function HikeMapInner({ hikes, selectedId, onSelect }: Props) {
 
   return (
     <MapContainer
-      center={[45, -121]}
+      center={[42, -120]}
       zoom={5}
-      minZoom={3}
+      minZoom={5}
       maxZoom={12}
+      maxBounds={WEST_COAST_BOUNDS}
+      maxBoundsViscosity={1.0}
       className="h-full w-full"
       style={{ background: "#0b0f14" }}
     >
