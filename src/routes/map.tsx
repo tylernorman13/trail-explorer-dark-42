@@ -23,7 +23,7 @@ export const Route = createFileRoute("/map")({
 function MapPage() {
   const navigate = useNavigate();
   return (
-    <div className="relative h-[calc(100vh-5rem)] w-full overflow-hidden">
+    <div className="relative h-[calc(100dvh-5rem)] w-full overflow-hidden touch-none">
       <HikeMap
         hikes={HIKES}
         selectedId={null}
