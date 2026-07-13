@@ -98,7 +98,7 @@ function Home() {
   const toggleState = (code: StateCode) => {
     const current = state ?? [];
     const next = current.includes(code)
-      ? current.filter((s) => s !== code)
+      ? current.filter((s: StateCode) => s !== code)
       : [...current, code];
     setState(next);
   };
