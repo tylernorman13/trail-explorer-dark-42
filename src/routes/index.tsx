@@ -17,7 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 
 type HomeSearch = {
-  state?: StateCode;
+  state?: StateCode[];
   diff?: Difficulty;
   type?: HikeType;
   q?: string;
@@ -25,17 +25,27 @@ type HomeSearch = {
 
 const STATE_CODES: StateCode[] = ["WA", "OR", "CA"];
 
+function parseStates(value: unknown): StateCode[] | undefined {
+  const raw = Array.isArray(value)
+    ? value
+    : typeof value === "string" && value.length > 0
+      ? value.split(",")
+      : [];
+  const filtered = raw.filter(
+    (s): s is StateCode =>
+      typeof s === "string" && (STATE_CODES as string[]).includes(s),
+  );
+  const unique = Array.from(new Set(filtered));
+  return unique.length > 0 ? unique : undefined;
+}
+
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): HomeSearch => {
-    const state = search.state;
     const diff = search.diff;
     const type = search.type;
     const q = search.q;
     return {
-      state:
-        typeof state === "string" && (STATE_CODES as string[]).includes(state)
-          ? (state as StateCode)
-          : undefined,
+      state: parseStates(search.state),
       diff:
         typeof diff === "string" && (DIFFICULTIES as string[]).includes(diff)
           ? (diff as Difficulty)
@@ -83,14 +93,25 @@ function Home() {
     });
   };
 
-  const setState = (v: StateCode | null) => update({ state: v ?? undefined });
+  const setState = (v: StateCode[] | null) =>
+    update({ state: v && v.length > 0 ? v : undefined });
+  const toggleState = (code: StateCode) => {
+    const current = state ?? [];
+    const next = current.includes(code)
+      ? current.filter((s: StateCode) => s !== code)
+      : [...current, code];
+    setState(next);
+  };
   const setDiff = (v: Difficulty | null) => update({ diff: v ?? undefined });
   const setType = (v: HikeType | null) => update({ type: v ?? undefined });
   const setQ = (v: string) => update({ q: v || undefined });
 
+  const stateMatch = (h: (typeof HIKES)[number]) =>
+    state && state.length > 0 ? state.includes(h.state) : true;
+
   const filtered = useMemo(
     () =>
-      HIKES.filter((h) => (state ? h.state === state : true))
+      HIKES.filter(stateMatch)
         .filter((h) => (diff ? h.difficulty === diff : true))
         .filter((h) => (type ? h.type === type : true))
         .filter((h) =>
@@ -137,13 +158,14 @@ function Home() {
           )}
         </div>
         <StateFilterCards
-          selected={state}
-          onSelect={(s) => setState(state === s ? null : s)}
+          selected={state ?? []}
+          onSelect={toggleState}
         />
       </section>
 
 
       {/* Filters */}
+      {/* keep scoped-count logic below in sync with multi-state filter */}
       <div className="mt-5 px-4">
         <div className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-white/40">
           Difficulty
@@ -152,7 +174,7 @@ function Home() {
           {(() => {
             const scoped = HIKES.filter(
               (h) =>
-                (state ? h.state === state : true) &&
+                stateMatch(h) &&
                 (type ? h.type === type : true),
             );
             return (
@@ -184,7 +206,7 @@ function Home() {
           {(() => {
             const scoped = HIKES.filter(
               (h) =>
-                (state ? h.state === state : true) &&
+                stateMatch(h) &&
                 (diff ? h.difficulty === diff : true),
             );
             return (

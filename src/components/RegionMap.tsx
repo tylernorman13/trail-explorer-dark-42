@@ -246,19 +246,21 @@ export function StateFilterCards({
   selected,
   onSelect,
 }: {
-  selected: StateCode | null;
+  selected: StateCode[];
   onSelect: (code: StateCode) => void;
 }) {
+  const anySelected = selected.length > 0;
   return (
     <div className="grid grid-cols-3 gap-3">
       {STATES.map((s) => {
         const count = HIKES.filter((h) => h.state === s.code).length;
-        const active = selected === s.code;
-        const dim = selected && !active;
+        const active = selected.includes(s.code);
+        const dim = anySelected && !active;
         return (
           <button
             key={s.code}
             onClick={() => onSelect(s.code)}
+            aria-pressed={active}
             className={cn(
               "flex flex-col items-center rounded-2xl bg-card p-3 text-left ring-1 transition",
               active
