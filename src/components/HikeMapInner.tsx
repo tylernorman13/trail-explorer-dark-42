@@ -60,10 +60,10 @@ function makeDotIcon(active: boolean) {
   });
 }
 
-// Bounding box covering WA, OR, CA
+// Bounding box covering WA, OR, CA with padding so any pin can be centered
 const WEST_COAST_BOUNDS = L.latLngBounds(
-  [32.3, -125.0], // SW corner (southern CA / Pacific)
-  [49.1, -114.0], // NE corner (northern WA / eastern edge)
+  [28.5, -130.0], // SW corner (padded south + west of CA coast)
+  [52.5, -108.5], // NE corner (padded north + east of WA)
 );
 
 function FitAndFly({
