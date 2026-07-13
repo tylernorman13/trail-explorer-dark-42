@@ -206,7 +206,7 @@ function Home() {
           {(() => {
             const scoped = HIKES.filter(
               (h) =>
-                (state ? h.state === state : true) &&
+                stateMatch(h) &&
                 (diff ? h.difficulty === diff : true),
             );
             return (
