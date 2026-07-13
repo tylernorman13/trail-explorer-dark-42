@@ -22,10 +22,8 @@ import yosemiteFallsVantage from "@/assets/hikes/yosemite-falls-vantage.jpg";
 export type Difficulty = "Easy" | "Moderate" | "Hard" | "Expert";
 export type HikeType =
   | "Lake"
-  | "Glacier"
   | "Waterfall"
   | "Peak"
-  | "Ridge"
   | "Valley"
   | "Viewpoint";
 
@@ -56,10 +54,8 @@ export const HIKE_TYPES: HikeType[] = [
   "Peak",
   "Lake",
   "Waterfall",
-  "Ridge",
   "Viewpoint",
   "Valley",
-  "Glacier",
 ];
 
 export const DIFFICULTIES: Difficulty[] = ["Easy", "Moderate", "Hard", "Expert"];
@@ -286,9 +282,9 @@ export const HIKES: Hike[] = [
     name: "Mt St Helens — Johnston Ridge",
     region: "Mt St Helens NVM, Washington",
     state: "WA",
-    tagline: "Viewpoint",
+    tagline: "Peak",
     difficulty: "Easy",
-    type: "Viewpoint",
+    type: "Peak",
     distanceKm: 1,
     elevationM: 30,
     lat: 46.2745,
@@ -324,9 +320,9 @@ export const HIKES: Hike[] = [
     name: "Camp Muir",
     region: "Mt Rainier NP, Washington",
     state: "WA",
-    tagline: "Glacier",
+    tagline: "Peak",
     difficulty: "Expert",
-    type: "Glacier",
+    type: "Peak",
     distanceKm: 14.5,
     elevationM: 1432,
     lat: 46.8358,
