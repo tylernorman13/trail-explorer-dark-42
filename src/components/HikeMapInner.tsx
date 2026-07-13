@@ -41,9 +41,31 @@ function useHighlightGeo() {
 
 const DOT_COLOR = "#d85c2b";
 
-function makeDotIcon(active: boolean) {
+function makeDotIcon(active: boolean, saved: boolean) {
   const size = active ? 20 : 14;
-  const html = `
+  let html: string;
+  if (saved) {
+    const s = active ? 22 : 16;
+    html = `
+      <div style="
+        width:${s}px;height:${s}px;
+        display:flex;align-items:center;justify-content:center;
+        filter:drop-shadow(0 1px 2px rgba(0,0,0,0.7));
+        transition:all 180ms ease;cursor:pointer;
+      ">
+        <svg viewBox="0 0 24 24" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 21s-7-4.35-7-10a4.5 4.5 0 0 1 8-2.9A4.5 4.5 0 0 1 19 11c0 5.65-7 10-7 10z"
+            fill="${DOT_COLOR}" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
+        </svg>
+      </div>`;
+    return L.divIcon({
+      html,
+      className: "hike-dot-icon",
+      iconSize: [s, s],
+      iconAnchor: [s / 2, s / 2],
+    });
+  }
+  html = `
     <div style="
       width:${size}px;height:${size}px;border-radius:9999px;
       background:${DOT_COLOR};
@@ -93,11 +115,13 @@ interface Props {
   hikes: Hike[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  savedIds?: string[];
 }
 
-export function HikeMapInner({ hikes, selectedId, onSelect }: Props) {
+export function HikeMapInner({ hikes, selectedId, onSelect, savedIds }: Props) {
   const selected = hikes.find((h) => h.id === selectedId) ?? null;
   const highlight = useHighlightGeo();
+  const savedSet = new Set(savedIds ?? []);
 
   return (
     <MapContainer
@@ -131,7 +155,7 @@ export function HikeMapInner({ hikes, selectedId, onSelect }: Props) {
         <Marker
           key={hike.id}
           position={[hike.lat, hike.lng]}
-          icon={makeDotIcon(hike.id === selectedId)}
+          icon={makeDotIcon(hike.id === selectedId, savedSet.has(hike.id))}
           eventHandlers={{ click: () => onSelect(hike.id) }}
         >
           <Tooltip

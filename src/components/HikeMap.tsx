@@ -5,6 +5,7 @@ interface Props {
   hikes: Hike[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  savedIds?: string[];
 }
 
 type InnerType = ComponentType<Props>;
