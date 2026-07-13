@@ -58,7 +58,7 @@ function makeDotIcon(active: boolean, saved: boolean) {
           <path d="M16 28 C 16 28, 3 20, 3 11.5 A 7.5 7.5 0 0 1 16 6.5 A 7.5 7.5 0 0 1 29 11.5 C 29 20, 16 28, 16 28 Z"
             fill="${DOT_COLOR}"
             stroke="#ffffff"
-            stroke-width="3"
+            stroke-width="2"
             stroke-linejoin="round"
             stroke-linecap="round"
             vector-effect="non-scaling-stroke"/>
