@@ -43,19 +43,25 @@ const DOT_COLOR = "#d85c2b";
 
 function makeDotIcon(active: boolean, saved: boolean) {
   const size = active ? 20 : 14;
-  let html: string;
   if (saved) {
-    const s = active ? 22 : 16;
-    html = `
+    // Match dot footprint but render a symmetrical heart with the same
+    // 2px white outline as the circular dots.
+    const s = active ? 24 : 18;
+    const html = `
       <div style="
         width:${s}px;height:${s}px;
-        display:flex;align-items:center;justify-content:center;
-        filter:drop-shadow(0 1px 2px rgba(0,0,0,0.7));
+        display:block;
+        filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6));
         transition:all 180ms ease;cursor:pointer;
       ">
-        <svg viewBox="0 0 24 24" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 21s-7-4.35-7-10a4.5 4.5 0 0 1 8-2.9A4.5 4.5 0 0 1 19 11c0 5.65-7 10-7 10z"
-            fill="${DOT_COLOR}" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
+        <svg viewBox="0 0 32 32" width="${s}" height="${s}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;">
+          <path d="M16 28 C 16 28, 3 20, 3 11.5 A 7.5 7.5 0 0 1 16 6.5 A 7.5 7.5 0 0 1 29 11.5 C 29 20, 16 28, 16 28 Z"
+            fill="${DOT_COLOR}"
+            stroke="#ffffff"
+            stroke-width="3"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            vector-effect="non-scaling-stroke"/>
         </svg>
       </div>`;
     return L.divIcon({
@@ -65,7 +71,7 @@ function makeDotIcon(active: boolean, saved: boolean) {
       iconAnchor: [s / 2, s / 2],
     });
   }
-  html = `
+  const html = `
     <div style="
       width:${size}px;height:${size}px;border-radius:9999px;
       background:${DOT_COLOR};
