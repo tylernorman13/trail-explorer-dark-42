@@ -93,14 +93,25 @@ function Home() {
     });
   };
 
-  const setState = (v: StateCode | null) => update({ state: v ?? undefined });
+  const setState = (v: StateCode[] | null) =>
+    update({ state: v && v.length > 0 ? v : undefined });
+  const toggleState = (code: StateCode) => {
+    const current = state ?? [];
+    const next = current.includes(code)
+      ? current.filter((s) => s !== code)
+      : [...current, code];
+    setState(next);
+  };
   const setDiff = (v: Difficulty | null) => update({ diff: v ?? undefined });
   const setType = (v: HikeType | null) => update({ type: v ?? undefined });
   const setQ = (v: string) => update({ q: v || undefined });
 
+  const stateMatch = (h: (typeof HIKES)[number]) =>
+    state && state.length > 0 ? state.includes(h.state) : true;
+
   const filtered = useMemo(
     () =>
-      HIKES.filter((h) => (state ? h.state === state : true))
+      HIKES.filter(stateMatch)
         .filter((h) => (diff ? h.difficulty === diff : true))
         .filter((h) => (type ? h.type === type : true))
         .filter((h) =>
