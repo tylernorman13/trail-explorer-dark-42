@@ -17,7 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 
 type HomeSearch = {
-  state?: StateCode;
+  state?: StateCode[];
   diff?: Difficulty;
   type?: HikeType;
   q?: string;
@@ -25,17 +25,27 @@ type HomeSearch = {
 
 const STATE_CODES: StateCode[] = ["WA", "OR", "CA"];
 
+function parseStates(value: unknown): StateCode[] | undefined {
+  const raw = Array.isArray(value)
+    ? value
+    : typeof value === "string" && value.length > 0
+      ? value.split(",")
+      : [];
+  const filtered = raw.filter(
+    (s): s is StateCode =>
+      typeof s === "string" && (STATE_CODES as string[]).includes(s),
+  );
+  const unique = Array.from(new Set(filtered));
+  return unique.length > 0 ? unique : undefined;
+}
+
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): HomeSearch => {
-    const state = search.state;
     const diff = search.diff;
     const type = search.type;
     const q = search.q;
     return {
-      state:
-        typeof state === "string" && (STATE_CODES as string[]).includes(state)
-          ? (state as StateCode)
-          : undefined,
+      state: parseStates(search.state),
       diff:
         typeof diff === "string" && (DIFFICULTIES as string[]).includes(diff)
           ? (diff as Difficulty)
