@@ -158,13 +158,14 @@ function Home() {
           )}
         </div>
         <StateFilterCards
-          selected={state}
-          onSelect={(s) => setState(state === s ? null : s)}
+          selected={state ?? []}
+          onSelect={toggleState}
         />
       </section>
 
 
       {/* Filters */}
+      {/* keep scoped-count logic below in sync with multi-state filter */}
       <div className="mt-5 px-4">
         <div className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-white/40">
           Difficulty
