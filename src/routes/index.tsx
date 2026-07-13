@@ -174,7 +174,7 @@ function Home() {
           {(() => {
             const scoped = HIKES.filter(
               (h) =>
-                (state ? h.state === state : true) &&
+                stateMatch(h) &&
                 (type ? h.type === type : true),
             );
             return (
