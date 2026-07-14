@@ -279,21 +279,22 @@ export const HIKES: Hike[] = [
   },
   {
     id: "mt-st-helens",
-    name: "Mt St Helens — Johnston Ridge",
+    name: "Mt St Helens — Worm Flows Route",
     region: "Mt St Helens NVM, Washington",
     state: "WA",
-    tagline: "Peak",
-    difficulty: "Easy",
+    tagline: "Summit climb",
+    difficulty: "Expert",
     type: "Peak",
-    distanceKm: 1,
-    elevationM: 30,
-    lat: 46.2745,
-    lng: -122.2158,
+    distanceKm: 19.3,
+    elevationM: 1670,
+    lat: 46.1912,
+    lng: -122.1869,
     description:
-      "Blast-zone panorama straight into the crater from Johnston Ridge — the front-row seat on the 1980 eruption.",
+      "Standard winter/spring summit route up the south side from Marble Mountain Sno-Park. Long, relentless climb over lava ridges and snowfields to the crater rim at 8,365 ft, with a jaw-dropping look down into the crater and across to Rainier, Adams, and Hood. Done in April on full snow — crampons and ice axe territory, with a glissade descent off the summit.",
     images: [mtStHelens, mtStHelens],
     access:
-      "Johnston Ridge / Hwy 504 side — check road status, sections have had closures.",
+      "Marble Mountain Sno-Park trailhead. Requires a Mt St Helens climbing permit (quota-limited; winter season is easier to grab than summer). Bring crampons, ice axe, and know how to self-arrest when there's snow.",
+
     instagram: [{ url: "https://www.instagram.com/p/DXmwqvuj0Ng/" }],
   },
   {
