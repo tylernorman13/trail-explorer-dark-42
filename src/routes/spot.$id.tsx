@@ -149,25 +149,8 @@ function SpotPage() {
             </button>
           </div>
 
-          {/* Carousel controls */}
-          {hike.images.length > 1 && (
-            <>
-              <button
-                onClick={prev}
-                aria-label="Previous"
-                className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white backdrop-blur"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <button
-                onClick={next}
-                aria-label="Next"
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white backdrop-blur"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </>
-          )}
+
+
 
           {/* Title overlay */}
           <div className="absolute inset-x-0 bottom-0 p-5">
