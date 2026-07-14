@@ -282,7 +282,7 @@ export const HIKES: Hike[] = [
     name: "Mt St Helens — Worm Flows Route",
     region: "Mt St Helens NVM, Washington",
     state: "WA",
-    tagline: "Summit climb",
+    tagline: "Peak",
     difficulty: "Expert",
     type: "Peak",
     distanceKm: 19.3,
