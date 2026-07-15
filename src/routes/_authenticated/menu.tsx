@@ -4,7 +4,7 @@ import { Compass, Heart, MapPin, Info, ChevronRight } from "lucide-react";
 import { HIKES } from "@/lib/hikes";
 import { useSavedIds, useVisitedIds } from "@/hooks/use-saved";
 
-export const Route = createFileRoute("/menu")({
+export const Route = createFileRoute("/_authenticated/menu")({
   head: () => ({
     meta: [
       { title: "Menu — Trail Atlas" },

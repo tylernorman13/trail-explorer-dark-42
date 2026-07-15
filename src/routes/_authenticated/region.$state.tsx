@@ -6,7 +6,7 @@ import { HikeCard } from "@/components/HikeCard";
 import { HIKES, STATES, kmToMi, mToFt, type Hike, type StateCode } from "@/lib/hikes";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/region/$state")({
+export const Route = createFileRoute("/_authenticated/region/$state")({
   parseParams: (raw) => {
     const code = (raw.state ?? "").toUpperCase() as StateCode;
     if (!STATES.some((s) => s.code === code)) throw notFound();

@@ -5,7 +5,7 @@ import { HikeCard } from "@/components/HikeCard";
 import { HIKES } from "@/lib/hikes";
 import { useVisitedIds } from "@/hooks/use-saved";
 
-export const Route = createFileRoute("/been-there")({
+export const Route = createFileRoute("/_authenticated/been-there")({
   head: () => ({
     meta: [
       { title: "Been There — Trail Atlas" },

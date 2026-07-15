@@ -5,7 +5,7 @@ import { HikeMap } from "@/components/HikeMap";
 import { HIKES } from "@/lib/hikes";
 import { useSavedIds } from "@/hooks/use-saved";
 
-export const Route = createFileRoute("/map")({
+export const Route = createFileRoute("/_authenticated/map")({
   head: () => ({
     meta: [
       { title: "Map — Trail Atlas" },

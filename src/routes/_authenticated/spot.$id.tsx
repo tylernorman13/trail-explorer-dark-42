@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 
 
 
-export const Route = createFileRoute("/spot/$id")({
+export const Route = createFileRoute("/_authenticated/spot/$id")({
   parseParams: (raw) => {
     const id = raw.id ?? "";
     if (!HIKES.some((h) => h.id === id)) throw notFound();
