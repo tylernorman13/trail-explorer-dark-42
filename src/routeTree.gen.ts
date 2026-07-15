@@ -9,7 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
 import { Route as AuthenticatedMenuRouteImport } from './routes/_authenticated/menu'
@@ -18,60 +20,71 @@ import { Route as AuthenticatedBeenThereRouteImport } from './routes/_authentica
 import { Route as AuthenticatedSpotIdRouteImport } from './routes/_authenticated/spot.$id'
 import { Route as AuthenticatedRegionStateRouteImport } from './routes/_authenticated/region.$state'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/_authenticated/',
-  path: '/',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
-  id: '/_authenticated/saved',
+  id: '/saved',
   path: '/saved',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMenuRoute = AuthenticatedMenuRouteImport.update({
-  id: '/_authenticated/menu',
+  id: '/menu',
   path: '/menu',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMapRoute = AuthenticatedMapRouteImport.update({
-  id: '/_authenticated/map',
+  id: '/map',
   path: '/map',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedBeenThereRoute = AuthenticatedBeenThereRouteImport.update({
-  id: '/_authenticated/been-there',
+  id: '/been-there',
   path: '/been-there',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSpotIdRoute = AuthenticatedSpotIdRouteImport.update({
-  id: '/_authenticated/spot/$id',
+  id: '/spot/$id',
   path: '/spot/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedRegionStateRoute =
   AuthenticatedRegionStateRouteImport.update({
-    id: '/_authenticated/region/$state',
+    id: '/region/$state',
     path: '/region/$state',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AuthenticatedIndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/been-there': typeof AuthenticatedBeenThereRoute
   '/map': typeof AuthenticatedMapRoute
   '/menu': typeof AuthenticatedMenuRoute
   '/saved': typeof AuthenticatedSavedRoute
-  '/': typeof AuthenticatedIndexRoute
   '/region/$state': typeof AuthenticatedRegionStateRoute
   '/spot/$id': typeof AuthenticatedSpotIdRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/been-there': typeof AuthenticatedBeenThereRoute
   '/map': typeof AuthenticatedMapRoute
   '/menu': typeof AuthenticatedMenuRoute
@@ -82,7 +95,9 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/_authenticated/been-there': typeof AuthenticatedBeenThereRoute
   '/_authenticated/map': typeof AuthenticatedMapRoute
   '/_authenticated/menu': typeof AuthenticatedMenuRoute
@@ -94,17 +109,19 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/about'
+    | '/auth'
     | '/been-there'
     | '/map'
     | '/menu'
     | '/saved'
-    | '/'
     | '/region/$state'
     | '/spot/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
+    | '/auth'
     | '/been-there'
     | '/map'
     | '/menu'
@@ -114,7 +131,9 @@ export interface FileRouteTypes {
     | '/spot/$id'
   id:
     | '__root__'
+    | '/_authenticated'
     | '/about'
+    | '/auth'
     | '/_authenticated/been-there'
     | '/_authenticated/map'
     | '/_authenticated/menu'
@@ -125,7 +144,87 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saved': {
+      id: '/_authenticated/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof AuthenticatedSavedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/menu': {
+      id: '/_authenticated/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof AuthenticatedMenuRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/map': {
+      id: '/_authenticated/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof AuthenticatedMapRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/been-there': {
+      id: '/_authenticated/been-there'
+      path: '/been-there'
+      fullPath: '/been-there'
+      preLoaderRoute: typeof AuthenticatedBeenThereRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/spot/$id': {
+      id: '/_authenticated/spot/$id'
+      path: '/spot/$id'
+      fullPath: '/spot/$id'
+      preLoaderRoute: typeof AuthenticatedSpotIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/region/$state': {
+      id: '/_authenticated/region/$state'
+      path: '/region/$state'
+      fullPath: '/region/$state'
+      preLoaderRoute: typeof AuthenticatedRegionStateRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+  }
+}
+
+interface AuthenticatedRouteRouteChildren {
   AuthenticatedBeenThereRoute: typeof AuthenticatedBeenThereRoute
   AuthenticatedMapRoute: typeof AuthenticatedMapRoute
   AuthenticatedMenuRoute: typeof AuthenticatedMenuRoute
@@ -135,69 +234,7 @@ export interface RootRouteChildren {
   AuthenticatedSpotIdRoute: typeof AuthenticatedSpotIdRoute
 }
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/saved': {
-      id: '/_authenticated/saved'
-      path: '/saved'
-      fullPath: '/saved'
-      preLoaderRoute: typeof AuthenticatedSavedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/menu': {
-      id: '/_authenticated/menu'
-      path: '/menu'
-      fullPath: '/menu'
-      preLoaderRoute: typeof AuthenticatedMenuRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/map': {
-      id: '/_authenticated/map'
-      path: '/map'
-      fullPath: '/map'
-      preLoaderRoute: typeof AuthenticatedMapRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/been-there': {
-      id: '/_authenticated/been-there'
-      path: '/been-there'
-      fullPath: '/been-there'
-      preLoaderRoute: typeof AuthenticatedBeenThereRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/spot/$id': {
-      id: '/_authenticated/spot/$id'
-      path: '/spot/$id'
-      fullPath: '/spot/$id'
-      preLoaderRoute: typeof AuthenticatedSpotIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/region/$state': {
-      id: '/_authenticated/region/$state'
-      path: '/region/$state'
-      fullPath: '/region/$state'
-      preLoaderRoute: typeof AuthenticatedRegionStateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
-}
-
-const rootRouteChildren: RootRouteChildren = {
-  AboutRoute: AboutRoute,
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBeenThereRoute: AuthenticatedBeenThereRoute,
   AuthenticatedMapRoute: AuthenticatedMapRoute,
   AuthenticatedMenuRoute: AuthenticatedMenuRoute,
@@ -205,6 +242,15 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedRegionStateRoute: AuthenticatedRegionStateRoute,
   AuthenticatedSpotIdRoute: AuthenticatedSpotIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
