@@ -1,69 +1,71 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin } from "lucide-react";
+import { Heart } from "lucide-react";
 import { AppTopBar } from "@/components/AppTopBar";
 import { HikeCard } from "@/components/HikeCard";
 import { HIKES } from "@/lib/hikes";
-import { useVisitedIds } from "@/hooks/use-saved";
+import { useSavedIds } from "@/hooks/use-saved";
 
-export const Route = createFileRoute("/been-there")({
+export const Route = createFileRoute("/_authenticated/saved")({
   head: () => ({
     meta: [
-      { title: "Been There — Trail Atlas" },
+      { title: "Saved Spots — Trail Atlas" },
       {
         name: "description",
-        content: "Trails you've marked visited across the Pacific coast.",
+        content: "Your saved hikes and lookouts across the Pacific coast.",
       },
-      { property: "og:title", content: "Been There — Trail Atlas" },
+      { property: "og:title", content: "Saved Spots — Trail Atlas" },
       {
         property: "og:description",
-        content: "Your logbook of finished hikes.",
+        content: "Every trail you've hearted, in one tidy list.",
       },
     ],
   }),
-  component: BeenTherePage,
+  component: SavedPage,
 });
 
-function BeenTherePage() {
-  const ids = useVisitedIds();
-  const visited = ids
+function SavedPage() {
+  const ids = useSavedIds();
+  const saved = ids
     .map((id) => HIKES.find((h) => h.id === id))
     .filter((h): h is (typeof HIKES)[number] => Boolean(h));
 
   return (
     <div className="pb-8">
       <AppTopBar />
+
       <div className="px-4">
         <div className="flex items-end justify-between">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-widest text-primary">
-              Your logbook
+              Your list
             </div>
             <h1 className="mt-1 text-2xl font-semibold text-white">
-              Been there
+              Saved spots
             </h1>
           </div>
           <div className="text-sm text-white/50">
-            {visited.length} {visited.length === 1 ? "spot" : "spots"}
+            {saved.length} {saved.length === 1 ? "spot" : "spots"}
           </div>
         </div>
       </div>
 
-      {visited.length > 0 ? (
+      {saved.length > 0 ? (
         <div className="mt-5 grid grid-cols-2 gap-3 px-4">
-          {visited.map((h) => (
+          {saved.map((h) => (
             <HikeCard key={h.id} hike={h} />
           ))}
         </div>
       ) : (
         <div className="mx-4 mt-8 flex flex-col items-center rounded-3xl border border-dashed border-white/10 bg-white/[0.02] p-10 text-center">
           <div className="grid h-14 w-14 place-items-center rounded-full bg-primary/10 text-primary">
-            <MapPin className="h-6 w-6" />
+            <Heart className="h-6 w-6" />
           </div>
           <div className="mt-4 text-base font-semibold text-white">
-            No visits logged yet
+            Nothing saved yet
           </div>
           <p className="mt-1 max-w-xs text-sm text-white/60">
-            Tap "Mark Visited" on any spot to add it to your logbook.
+            Tap the heart on any spot to add it to your list. It'll show up
+            here for quick access.
           </p>
           <Link
             to="/"

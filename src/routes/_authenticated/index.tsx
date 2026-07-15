@@ -39,7 +39,7 @@ function parseStates(value: unknown): StateCode[] | undefined {
   return unique.length > 0 ? unique : undefined;
 }
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   validateSearch: (search: Record<string, unknown>): HomeSearch => {
     const diff = search.diff;
     const type = search.type;

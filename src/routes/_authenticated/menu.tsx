@@ -1,10 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppTopBar } from "@/components/AppTopBar";
-import { Compass, Heart, MapPin, Info, ChevronRight } from "lucide-react";
+import { Compass, Heart, MapPin, Info, ChevronRight, LogOut } from "lucide-react";
 import { HIKES } from "@/lib/hikes";
 import { useSavedIds, useVisitedIds } from "@/hooks/use-saved";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/menu")({
+export const Route = createFileRoute("/_authenticated/menu")({
   head: () => ({
     meta: [
       { title: "Menu — Trail Atlas" },
@@ -18,6 +20,7 @@ export const Route = createFileRoute("/menu")({
 
 function Menu() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const savedCount = useSavedIds().length;
   const visitedCount = useVisitedIds().length;
 
@@ -25,6 +28,13 @@ function Menu() {
     const h = HIKES[Math.floor(Math.random() * HIKES.length)];
     if (h) navigate({ to: "/spot/$id", params: { id: h.id } });
   };
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  }
 
   return (
     <div className="pb-8">
@@ -69,6 +79,21 @@ function Menu() {
             label="About Trail Atlas"
             hint="How this guide works"
           />
+
+          <li>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="flex w-full items-center gap-3 rounded-2xl bg-card p-4 text-left ring-1 ring-white/5 transition hover:ring-white/15"
+            >
+              <IconTile icon={LogOut} />
+              <div className="flex-1">
+                <div className="text-sm font-medium text-white">Sign out</div>
+                <div className="text-xs text-white/50">End your session</div>
+              </div>
+              <ChevronRight className="h-5 w-5 text-white/30" />
+            </button>
+          </li>
         </ul>
       </div>
     </div>
